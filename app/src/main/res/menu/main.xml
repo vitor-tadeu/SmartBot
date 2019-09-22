@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_raio"
+        android:icon="@drawable/menu_raio"
+        android:orderInCategory="1"
+        android:title="Raio"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/menu_filtro"
+        android:icon="@drawable/menu_filtro"
+        android:orderInCategory="2"
+        android:title="Filtro"
+        app:showAsAction="always" />
+</menu>

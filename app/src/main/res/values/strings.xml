@@ -1,0 +1,46 @@
+<resources>
+    <string name="app_name">Smart Bot</string>
+
+    <string name="logo">Logo Smart Bot</string>
+    <string name="intro_1_msg_1">Bem-vindo ao Smart Bot</string>
+    <string name="intro_1_msg_2">Direção segura e defensiva</string>
+    <string name="intro_1_msg_3">Trânsito não é divertimento, não brinque! \nPreserve sua vida e a do outro.</string>
+
+    <string name="intro_2_imagem">Primeira tela do app</string>
+    <string name="intro_2_icone">Icone seta para esquerda</string>
+    <string name="intro_2_msg_1">Clique no card para enviar a \nrota ao Google Maps</string>
+    <string name="intro_2_msg_2">Locais próximos</string>
+    <string name="intro_2_msg_3">Receba uma lista de locais abertos \npróximo à sua localização atual.</string>
+
+    <string name="intro_3_imagem">Seleiona o tipo de local</string>
+    <string name="intro_3_msg_1">Busque por lugares</string>
+    <string name="intro_3_msg_2">Encontre lugares próximos \nda sua localização atual.</string>
+
+    <string name="intro_4_imagem">Tela para selecionar o raio</string>
+    <string name="intro_4_msg_1">Defina o raio</string>
+    <string name="intro_4_msg_2">Quanto maior o raio maior \nserá o retorno de lugares.</string>
+
+    <string name="intro_5_imagem">Tela para definir o filtro</string>
+    <string name="intro_5_msg_1">Aplique filtro</string>
+    <string name="intro_5_msg_2">Ache o local ideal para você \naplicando filtros rápidos.</string>
+
+    <string name="intro_6_imagem">Rota aberta no Google Maps</string>
+    <string name="intro_6_msg_1">Google Maps</string>
+    <string name="intro_6_msg_2">Siga seu destino com \natenção e cuidado.</string>
+
+    <string name="intro_comecar">Começar</string>
+    <string name="intro_proximo">Próximo</string>
+
+    <string name="dashboard_msg_1">Bom dia</string>
+    <string name="dashboard_msg_2">Motorista</string>
+    <string name="dashboard_msg_3">Oi! Como posso ajudar?</string>
+    <string name="dashboard_msg_4">Configurações dos Sensores</string>
+
+    <string name="dashboard_bom_dia">Bom dia,</string>
+    <string name="dashboard_bom_tarde">Bom tarde,</string>
+    <string name="dashboard_bom_noite">Bom noite,</string>
+    <string name="dashboard_usuario">Digite seu nome:</string>
+
+    <string name="nearby_msg1">Nenhum hotel \nencontrado aberto, \ntente aumentar \no raio.</string>
+    <string name="settings_msg_1">Conheça o app</string>
+</resources>

@@ -1,0 +1,96 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <!-- Remover actionBar. -->
+    <style name="AppTheme.NoActionBar">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <!-- Remover actionBar. -->
+    <style name="AppTheme.NoActionBarSensor">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <!-- ProgressBar -->
+    <style name="ProgressBar">
+        <item name="colorAccent">@color/colorPrimary</item>
+    </style>
+
+    <!-- RatingBar -->
+    <style name="RatingBar" parent="Theme.AppCompat">
+        <item name="colorControlNormal">#00a4e3</item>
+        <item name="colorControlActivated">#005ba2</item>
+    </style>
+
+    <!-- ShowCase -->
+    <style name="ShowCase1" parent="ShowcaseView.Light">
+        <item name="sv_backgroundColor">#CCFFFFFF</item>
+        <item name="sv_showcaseColor">@color/colorPrimary</item>
+        <item name="sv_buttonText">Próximo</item>
+        <item name="sv_tintButtonColor">true</item>
+        <item name="sv_titleTextAppearance">@style/Titulo</item>
+        <item name="sv_detailTextAppearance">@style/Detalhe</item>
+    </style>
+
+    <style name="ShowCase2" parent="ShowcaseView.Light">
+        <item name="sv_backgroundColor">#CCFFFFFF</item>
+        <item name="sv_showcaseColor">@color/colorPrimary</item>
+        <item name="sv_buttonText">Entendi</item>
+        <item name="sv_tintButtonColor">true</item>
+        <item name="sv_titleTextAppearance">@style/Titulo</item>
+        <item name="sv_detailTextAppearance">@style/Detalhe</item>
+    </style>
+
+    <style name="ShowCase3" parent="ShowcaseView.Light">
+        <item name="sv_backgroundColor">#CCFFFFFF</item>
+        <item name="sv_showcaseColor">@color/colorPrimary</item>
+        <item name="sv_buttonText">Ir</item>
+        <item name="sv_tintButtonColor">true</item>
+        <item name="sv_titleTextAppearance">@style/Titulo</item>
+    </style>
+
+    <style name="Titulo" parent="TextAppearance.ShowcaseView.Title">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
+        <item name="android:textStyle">italic</item>
+    </style>
+
+    <style name="Detalhe" parent="TextAppearance.ShowcaseView.Detail.Light">
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
+    </style>
+
+    <style name="Intro_Titulo" parent="TextAppearance.AppCompat">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">25sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Intro_Descricao" parent="TextAppearance.AppCompat">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="Intro_Imagem" parent="TextAppearance.AppCompat">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">400dp</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+</resources>

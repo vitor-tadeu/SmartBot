@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="16dp"
+    tools:context=".view.Lugares">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="Combustível"
+        android:textColor="@android:color/black"
+        app:layout_constraintEnd_toEndOf="@+id/fab_gas_station"
+        app:layout_constraintStart_toStartOf="@+id/fab_gas_station"
+        app:layout_constraintTop_toBottomOf="@+id/fab_gas_station" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="Estacionamento"
+        android:textColor="@android:color/black"
+        app:layout_constraintEnd_toEndOf="@+id/fab_parking"
+        app:layout_constraintStart_toStartOf="@+id/fab_parking"
+        app:layout_constraintTop_toBottomOf="@+id/fab_parking" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="Mecânica"
+        android:textColor="@android:color/black"
+        app:layout_constraintEnd_toEndOf="@+id/fab_mecanica"
+        app:layout_constraintStart_toStartOf="@+id/fab_mecanica"
+        app:layout_constraintTop_toBottomOf="@+id/fab_mecanica" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="Hospital"
+        android:textColor="@android:color/black"
+        app:layout_constraintEnd_toEndOf="@+id/fab_hospital"
+        app:layout_constraintStart_toStartOf="@+id/fab_hospital"
+        app:layout_constraintTop_toBottomOf="@+id/fab_hospital" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="Restaurante"
+        android:textColor="@android:color/black"
+        app:layout_constraintEnd_toEndOf="@+id/fab_restaurante"
+        app:layout_constraintStart_toStartOf="@+id/fab_restaurante"
+        app:layout_constraintTop_toBottomOf="@+id/fab_restaurante" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="Cafeteria"
+        android:textColor="@android:color/black"
+        app:layout_constraintEnd_toEndOf="@+id/fab_cafe"
+        app:layout_constraintStart_toStartOf="@+id/fab_cafe"
+        app:layout_constraintTop_toBottomOf="@+id/fab_cafe" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_gas_station"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="50dp"
+        android:backgroundTint="@color/colorPrimary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/fab_gas_station" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_parking"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:backgroundTint="@color/colorPrimary"
+        app:layout_constraintEnd_toStartOf="@+id/fab_mecanica"
+        app:layout_constraintStart_toEndOf="@+id/fab_gas_station"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/fab_parking" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_mecanica"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="50dp"
+        android:backgroundTint="@color/colorPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/fab_mecanica" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_hospital"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="50dp"
+        android:backgroundTint="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fab_gas_station"
+        app:srcCompat="@drawable/fab_hospital" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_restaurante"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/fab_cafe"
+        app:layout_constraintStart_toEndOf="@+id/fab_hospital"
+        app:layout_constraintTop_toBottomOf="@+id/fab_parking"
+        app:srcCompat="@drawable/fab_restaurant" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_cafe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="50dp"
+        android:backgroundTint="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fab_mecanica"
+        app:srcCompat="@drawable/fab_coffee" />
+
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_dashboard"
+        android:icon="@drawable/menu_dashboard"
+        android:title="Dashboard" />
+
+    <item
+        android:id="@+id/menu_places"
+        android:icon="@drawable/menu_places"
+        android:title="Nearby" />
+
+    <item
+        android:id="@+id/menu_settings"
+        android:icon="@drawable/menu_settings"
+        android:title="Settings" />
+</menu>

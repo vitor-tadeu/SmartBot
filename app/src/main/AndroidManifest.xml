@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.smartbot">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:ignore="AllowBackup,GoogleAppIndexingWarning">
+        <!-- Splash Screen -->
+        <activity
+            android:name=".view.introducao.SplashScreen"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <!-- Introdução -->
+        <activity
+            android:name=".view.introducao.IntroViewPager"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden" />
+        <!-- Menu -->
+        <activity
+            android:name=".menu.Menu"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <!-- BottomSheet -->
+        <activity
+            android:name=".view.Lugares"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <!-- Sensores -->
+        <activity
+            android:name=".view.sensores.PressaoPneu"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBarSensor"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".view.sensores.Velocidade"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBarSensor"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".view.sensores.Marcha"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBarSensor"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".view.sensores.Combustivel"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBarSensor"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".view.sensores.TemperaturaExterna"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBarSensor"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".view.sensores.OleoMotor"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBarSensor"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".controller.bluetooth.Bluetooth"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".view.Grafico"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <!-- SDL -->
+        <activity
+            android:name="com.smartdevicelink.managers.lockscreen.SDLLockScreenActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name="com.smartdevicelink.transport.USBAccessoryAttachmentActivity"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED"
+                android:resource="@xml/accessory_filter" />
+        </activity>
+        <!-- Set versão do Google Play Services -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <receiver
+            android:name=".controller.sdl.SdlReceiver"
+            android:enabled="true"
+            android:exported="true"
+            tools:ignore="ExportedReceiver">
+            <intent-filter>
+                <action android:name="com.smartdevicelink.USB_ACCESSORY_ATTACHED" />
+                <action android:name="android.bluetooth.device.action.ACL_CONNECTED" />
+                <action android:name="sdl.router.startservice" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name=".controller.sdl.SdlService"
+            android:enabled="true"
+            android:exported="true"
+            tools:ignore="ExportedService" />
+
+        <service
+            android:name=".controller.sdl.SdlRouterService"
+            android:enabled="true"
+            android:process="com.smartdevicelink.router"
+            tools:ignore="ExportedService">
+            <intent-filter>
+                <action android:name="com.smartdevicelink.router.service" />
+            </intent-filter>
+
+            <meta-data
+                android:name="sdl_router_version"
+                android:value="@integer/sdl_router_service_version_value" />
+        </service>
+
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+
+    </application>
+
+    <uses-feature android:name="android.hardware.bluetooth" />
+
+    <uses-feature android:name="android.hardware.usb.accessory" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+</manifest>

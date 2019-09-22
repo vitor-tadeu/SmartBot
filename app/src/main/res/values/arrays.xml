@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string-array name="raio">
+        <item>1 km</item>
+        <item>2 km</item>
+        <item>5 km</item>
+        <item>10 km</item>
+        <item>20 km</item>
+        <item>30 km</item>
+        <item>40 km</item>
+        <item>50 km</item>
+    </string-array>
+
+    <string-array name="filtro">
+        <item>Ordem alfabética</item>
+        <item>Distância mais curta</item>
+        <item>Tempo mais curto</item>
+        <item>Maior avaliação</item>
+    </string-array>
+</resources>
