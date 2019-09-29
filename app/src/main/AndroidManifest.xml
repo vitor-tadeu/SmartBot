@@ -42,7 +42,12 @@
             android:windowSoftInputMode="stateAlwaysHidden" />
         <!-- Sensores -->
         <activity
-            android:name=".view.sensores.PressaoPneu"
+            android:name=".view.sensores.Combustivel"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBarSensor"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".view.sensores.Temperatura"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBarSensor"
             android:windowSoftInputMode="stateAlwaysHidden" />
@@ -52,17 +57,17 @@
             android:theme="@style/AppTheme.NoActionBarSensor"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
+            android:name=".view.sensores.RPM"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBarSensor"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
             android:name=".view.sensores.Marcha"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBarSensor"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name=".view.sensores.Combustivel"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBarSensor"
-            android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity
-            android:name=".view.sensores.TemperaturaExterna"
+            android:name=".view.sensores.PosicaoPedal"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBarSensor"
             android:windowSoftInputMode="stateAlwaysHidden" />
@@ -71,6 +76,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBarSensor"
             android:windowSoftInputMode="stateAlwaysHidden" />
+        <!-- OUTROS -->
         <activity
             android:name=".controller.bluetooth.Bluetooth"
             android:screenOrientation="portrait"
