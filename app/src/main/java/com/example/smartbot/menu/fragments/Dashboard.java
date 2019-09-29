@@ -55,8 +55,9 @@ import com.example.smartbot.model.Sensor;
 import com.example.smartbot.view.sensores.Combustivel;
 import com.example.smartbot.view.sensores.Marcha;
 import com.example.smartbot.view.sensores.OleoMotor;
-import com.example.smartbot.view.sensores.PressaoPneu;
-import com.example.smartbot.view.sensores.TemperaturaExterna;
+import com.example.smartbot.view.sensores.PosicaoPedal;
+import com.example.smartbot.view.sensores.RPM;
+import com.example.smartbot.view.sensores.Temperatura;
 import com.example.smartbot.view.sensores.Velocidade;
 import com.github.amlcurran.showcaseview.OnShowcaseEventListener;
 import com.github.amlcurran.showcaseview.ShowcaseView;
@@ -77,7 +78,7 @@ public class Dashboard extends Fragment implements OnItemClickListener {
 
     private TextView mTempo, mNome;
     private FloatingActionButton mMicrofone;
-    private String mCoordenadas, mCombustivel, mMarcha, mOleoMotor, mPressaoPneu, mTemperatura, mVelocidade;
+    private String mCoordenadas, mCombustivel, mTemperatura, mVelocidade, mRPM, mMarcha, mPosicaoPedal;
     private boolean firstStart;
     private Menu menu;
     private View view;
@@ -310,22 +311,24 @@ public class Dashboard extends Fragment implements OnItemClickListener {
     }
 
     private ArrayList<String> nomeSensor() {
-        nomeSensor.add("Óleo do Motor");
-        nomeSensor.add("Temperatura");
         nomeSensor.add("Combustível");
-        nomeSensor.add("Marcha");
+        nomeSensor.add("Temperatura");
         nomeSensor.add("Velocidade");
-        nomeSensor.add("Pressão do Pneu");
+        nomeSensor.add("RPM");
+        nomeSensor.add("Marcha");
+        nomeSensor.add("Posição do Pedal");
+        nomeSensor.add("Óleo do Motor");
         return nomeSensor;
     }
 
     private ArrayList<Integer> imagem() {
-        imagem.add(R.drawable.sensor_oleo_motor);
-        imagem.add(R.drawable.sensor_temperatura);
         imagem.add(R.drawable.sensor_combustivel);
-        imagem.add(R.drawable.sensor_marcha);
+        imagem.add(R.drawable.sensor_temperatura);
         imagem.add(R.drawable.sensor_velocimetro);
+        imagem.add(R.drawable.sensor_velocimetro);
+        imagem.add(R.drawable.sensor_marcha);
         imagem.add(R.drawable.sensor_pneu);
+        imagem.add(R.drawable.sensor_oleo_motor);
         return imagem;
     }
 
@@ -534,7 +537,7 @@ public class Dashboard extends Fragment implements OnItemClickListener {
             @Override
             public boolean onLongClick(View v) {
                 Context context = getActivity();
-                startActivity(new Intent(getActivity(), TemperaturaExterna.class));
+                startActivity(new Intent(getActivity(), Temperatura.class));
                 Animatoo.animateFade(context);
                 return true;
             }
@@ -607,11 +610,7 @@ public class Dashboard extends Fragment implements OnItemClickListener {
             } else if (command.contains("nível")) {
                 if (command.contains("combustível")) {
                     speak("O nível do combustível atual é " + mCombustivel.substring(0, 2) + "%");
-                } else if (command.contains("óleo")) {
-                    speak("O nível do óleo é " + mOleoMotor);
                 }
-            } else if (command.contains("pneu")) {
-                speak("A pressão dos pneus está " + mPressaoPneu);
             } else if (command.contains("velocidade")) {
                 speak("A sua velocidade é de " + mVelocidade);
             }
@@ -633,20 +632,20 @@ public class Dashboard extends Fragment implements OnItemClickListener {
             if (command.contains("combustível")) {
                 startActivity(new Intent(getActivity(), Combustivel.class));
                 Animatoo.animateSlideLeft(context);
-            } else if (command.contains("marcha")) {
-                startActivity(new Intent(getActivity(), Marcha.class));
-                Animatoo.animateSlideLeft(context);
-            } else if (command.contains("óleo")) {
-                startActivity(new Intent(getActivity(), OleoMotor.class));
-                Animatoo.animateSlideLeft(context);
-            } else if (command.contains("pneu")) {
-                startActivity(new Intent(getActivity(), PressaoPneu.class));
-                Animatoo.animateSlideLeft(context);
             } else if (command.contains("temperatura")) {
-                startActivity(new Intent(getActivity(), TemperaturaExterna.class));
+                startActivity(new Intent(getActivity(), Temperatura.class));
                 Animatoo.animateSlideLeft(context);
             } else if (command.contains("velocidade")) {
                 startActivity(new Intent(getActivity(), Velocidade.class));
+                Animatoo.animateSlideLeft(context);
+            } else if (command.contains("rpm")) {
+                startActivity(new Intent(getActivity(), RPM.class));
+                Animatoo.animateSlideLeft(context);
+            } else if (command.contains("marcha")) {
+                startActivity(new Intent(getActivity(), Marcha.class));
+                Animatoo.animateSlideLeft(context);
+            } else if (command.contains("posição do pedal")) {
+                startActivity(new Intent(getActivity(), PosicaoPedal.class));
                 Animatoo.animateSlideLeft(context);
             }
         } else speak("Não posso responder isso com precisão, tente perguntar de outra maneira.");
@@ -690,11 +689,11 @@ public class Dashboard extends Fragment implements OnItemClickListener {
 
     private void getSensor() {
         mCombustivel = String.valueOf(((VehicleData.getInstance().getFuelLevel())));
-        mMarcha = ((VehicleData.getInstance().getPrndl()));
-        mOleoMotor = ((VehicleData.getInstance().getEngineOilLife()));
-        mPressaoPneu = ((VehicleData.getInstance().getTirePressure()));
         mTemperatura = String.valueOf(((VehicleData.getInstance().getExternalTemperature())));
         mVelocidade = String.valueOf(((VehicleData.getInstance().getSpeed())));
+        mRPM = String.valueOf(((VehicleData.getInstance().getRpm())));
+        mMarcha = ((VehicleData.getInstance().getPrndl()));
+        mPosicaoPedal = String.valueOf(((VehicleData.getInstance().getEngineOilLife())));
     }
 
     @Override
@@ -718,28 +717,32 @@ public class Dashboard extends Fragment implements OnItemClickListener {
         Context context = getActivity();
         assert context != null;
         switch (nomeSensor.get(posicao)) {
-            case "Óleo do Motor":
-                startActivity(new Intent(getActivity(), OleoMotor.class));
-                Animatoo.animateSlideLeft(context);
-                break;
-            case "Temperatura":
-                startActivity(new Intent(getActivity(), TemperaturaExterna.class));
-                Animatoo.animateSlideLeft(context);
-                break;
             case "Combustível":
                 startActivity(new Intent(getActivity(), Combustivel.class));
                 Animatoo.animateSlideLeft(context);
                 break;
-            case "Marcha":
-                startActivity(new Intent(getActivity(), Marcha.class));
+            case "Temperatura":
+                startActivity(new Intent(getActivity(), Temperatura.class));
                 Animatoo.animateSlideLeft(context);
                 break;
             case "Velocidade":
                 startActivity(new Intent(getActivity(), Velocidade.class));
                 Animatoo.animateSlideLeft(context);
                 break;
-            case "Pressão do Pneu":
-                startActivity(new Intent(getActivity(), PressaoPneu.class));
+            case "RPM":
+                startActivity(new Intent(getActivity(), RPM.class));
+                Animatoo.animateSlideLeft(context);
+                break;
+            case "Marcha":
+                startActivity(new Intent(getActivity(), Marcha.class));
+                Animatoo.animateSlideLeft(context);
+                break;
+            case "Posição do Pedal":
+                startActivity(new Intent(getActivity(), PosicaoPedal.class));
+                Animatoo.animateSlideLeft(context);
+                break;
+            case "Óleo do Motor":
+                startActivity(new Intent(getActivity(), OleoMotor.class));
                 Animatoo.animateSlideLeft(context);
                 break;
         }
