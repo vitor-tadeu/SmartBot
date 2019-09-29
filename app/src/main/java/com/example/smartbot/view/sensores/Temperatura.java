@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -15,21 +16,27 @@ import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.example.smartbot.BuildConfig;
 import com.example.smartbot.R;
 import com.example.smartbot.controller.sdl.Config;
+import com.example.smartbot.controller.sdl.HMIScreenManager;
 import com.example.smartbot.controller.sdl.SdlReceiver;
 import com.example.smartbot.controller.sdl.SdlService;
 import com.example.smartbot.controller.sdl.TelematicsCollector;
 import com.example.smartbot.controller.sdl.VehicleData;
+import com.smartdevicelink.proxy.RPCResponse;
+import com.smartdevicelink.proxy.rpc.GetVehicleDataResponse;
+import com.smartdevicelink.proxy.rpc.enums.Result;
+import com.smartdevicelink.proxy.rpc.listeners.OnRPCResponseListener;
 
-public class PressaoPneu extends AppCompatActivity {
-    private static final String TAG = "PressaoPneu";
-    private TextView mPressaoPneu;
+public class Temperatura extends AppCompatActivity {
+    private static final String TAG = "Temperatura";
+    private TextView mTemperatura;
+    private String result, temperatura;
     private Handler handler;
     private Menu menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.sensor_pressao_pneu);
+        setContentView(R.layout.sensor_temperatura);
         toolbar();
         SDL();
         init();
@@ -48,16 +55,16 @@ public class PressaoPneu extends AppCompatActivity {
         if (id == R.id.menu_off) {
             if (Config.sdlServiceIsActive) {
                 Toast.makeText(this, "Conexão SYNC: Conectado", Toast.LENGTH_SHORT).show();
+                menu.getItem(0).setTitle("ON");
                 if (Config.isSubscribing) {
                     TelematicsCollector.getInstance().setUnssubscribeVehicleData();
-                    menu.getItem(0).setTitle("ON");
                     initThreadVerificaLeitura();
                 } else {
                     TelematicsCollector.getInstance().setSubscribeVehicleData();
-                    menu.getItem(0).setTitle("OFF");
                 }
             } else {
                 Toast.makeText(this, "Conexão SYNC: Desconectado", Toast.LENGTH_SHORT).show();
+                menu.getItem(0).setTitle("OFF");
             }
             return true;
         }
@@ -67,9 +74,9 @@ public class PressaoPneu extends AppCompatActivity {
     }
 
     private void toolbar() {
-        Toolbar toolbar = findViewById(R.id.toolbarPressaoPneu);
+        Toolbar toolbar = findViewById(R.id.toolbarTemperatura);
         toolbar.setNavigationIcon(R.drawable.menu_voltar);
-        toolbar.setTitle("Pressão do Pneu");
+        toolbar.setTitle("Temperatura");
         setSupportActionBar(toolbar);
     }
 
@@ -84,7 +91,37 @@ public class PressaoPneu extends AppCompatActivity {
     }
 
     private void init() {
-        mPressaoPneu = findViewById(R.id.txtSensorPressaoPneu);
+        mTemperatura = findViewById(R.id.txtSensorTemperaturaExterna);
+    }
+
+    private void getSensor() {
+        if (Config.sdlServiceIsActive) {
+            TelematicsCollector.getInstance().getVehicleData(new OnRPCResponseListener() {
+                @SuppressLint("SetTextI18n")
+                @Override
+                public void onResponse(int correlationId, RPCResponse response) {
+                    Log.i(TAG, "Houve uma resposta RPC!");
+                    if (response.getSuccess()) {
+                        Double pedalPosition = ((GetVehicleDataResponse) response).getAccPedalPosition();
+                        HMIScreenManager.getInstance().showAlert("Pedal Position status: " + pedalPosition.toString());
+                        String s = pedalPosition.toString();
+
+                        VehicleData data = new VehicleData();
+                        data.setAccPedalPosition(Double.valueOf(s));
+                        mTemperatura.setText("Pedal Position: " + data.getAccPedalPosition());
+                    } else {
+                        Log.i(TAG, "GetVehicleData was rejected.");
+                    }
+                }
+
+                @Override
+                public void onError(int correlationId, Result resultCode, String info) {
+                    Log.e(TAG, "onError: " + resultCode + " | Info: " + info);
+                }
+            });
+        } else {
+            Toast.makeText(Temperatura.this, "Conexão com o SYNC não foi estabelecida", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void initThreadVerificaLeitura() {
@@ -95,7 +132,9 @@ public class PressaoPneu extends AppCompatActivity {
                     handler.post(new Runnable() {
                         @SuppressLint("SetTextI18n")
                         public void run() {
-                            mPressaoPneu.setText("Pressão Pneu: " + (VehicleData.getInstance().getTirePressure()));
+                            result = String.valueOf((VehicleData.getInstance().getExternalTemperature()));
+                            temperatura = result.substring(0, 2);
+                            mTemperatura.setText(temperatura + "º");
                         }
                     });
                     try {

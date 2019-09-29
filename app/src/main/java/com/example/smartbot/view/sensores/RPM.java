@@ -20,17 +20,17 @@ import com.example.smartbot.controller.sdl.SdlService;
 import com.example.smartbot.controller.sdl.TelematicsCollector;
 import com.example.smartbot.controller.sdl.VehicleData;
 
-public class Marcha extends AppCompatActivity {
-    private static final String TAG = "Maarcha";
-    private TextView mMarcha;
-    private String result;
+public class RPM extends AppCompatActivity {
+    private static final String TAG = "RPM";
+    private TextView mRPM;
+    private String result, rpm;
     private Handler handler;
     private Menu menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.sensor_marcha);
+        setContentView(R.layout.sensor_rpm);
         toolbar();
         SDL();
         init();
@@ -68,9 +68,9 @@ public class Marcha extends AppCompatActivity {
     }
 
     private void toolbar() {
-        Toolbar toolbar = findViewById(R.id.toolbarMarcha);
+        Toolbar toolbar = findViewById(R.id.toolbarRPM);
         toolbar.setNavigationIcon(R.drawable.menu_voltar);
-        toolbar.setTitle("Marcha");
+        toolbar.setTitle("RPM");
         setSupportActionBar(toolbar);
     }
 
@@ -85,7 +85,7 @@ public class Marcha extends AppCompatActivity {
     }
 
     private void init() {
-        mMarcha = findViewById(R.id.txtSensorMarcha);
+        mRPM = findViewById(R.id.txtSensorRPM);
     }
 
     private void initThreadVerificaLeitura() {
@@ -96,8 +96,9 @@ public class Marcha extends AppCompatActivity {
                     handler.post(new Runnable() {
                         @SuppressLint("SetTextI18n")
                         public void run() {
-                            result = String.valueOf((VehicleData.getInstance().getPrndl()));
-                            mMarcha.setText(result);
+                            result = String.valueOf((VehicleData.getInstance().getRpm()));
+                            rpm = result.substring(0, 4);
+                            mRPM.setText(rpm);
                         }
                     });
                     try {

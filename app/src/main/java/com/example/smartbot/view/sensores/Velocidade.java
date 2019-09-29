@@ -23,6 +23,7 @@ import com.example.smartbot.controller.sdl.VehicleData;
 public class Velocidade extends AppCompatActivity {
     private static final String TAG = "Velocidade";
     private TextView mVelocidade;
+    private String result, velocidade;
     private Handler handler;
     private Menu menu;
 
@@ -48,16 +49,16 @@ public class Velocidade extends AppCompatActivity {
         if (id == R.id.menu_off) {
             if (Config.sdlServiceIsActive) {
                 Toast.makeText(this, "Conexão SYNC: Conectado", Toast.LENGTH_SHORT).show();
+                menu.getItem(0).setTitle("ON");
                 if (Config.isSubscribing) {
                     TelematicsCollector.getInstance().setUnssubscribeVehicleData();
-                    menu.getItem(0).setTitle("ON");
                     initThreadVerificaLeitura();
                 } else {
                     TelematicsCollector.getInstance().setSubscribeVehicleData();
-                    menu.getItem(0).setTitle("OFF");
                 }
             } else {
                 Toast.makeText(this, "Conexão SYNC: Desconectado", Toast.LENGTH_SHORT).show();
+                menu.getItem(0).setTitle("OFF");
             }
             return true;
         }
@@ -95,7 +96,9 @@ public class Velocidade extends AppCompatActivity {
                     handler.post(new Runnable() {
                         @SuppressLint("SetTextI18n")
                         public void run() {
-                            mVelocidade.setText("Velocidade: " + (VehicleData.getInstance().getSpeed()));
+                            result = String.valueOf((VehicleData.getInstance().getSpeed()));
+                            velocidade = result.substring(0, 2);
+                            mVelocidade.setText(velocidade + " km/h");
                         }
                     });
                     try {

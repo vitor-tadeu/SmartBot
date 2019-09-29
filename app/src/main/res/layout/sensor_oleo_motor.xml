@@ -6,13 +6,22 @@
     android:layout_height="match_parent"
     tools:context=".view.sensores.OleoMotor">
 
+    <Button
+        android:id="@+id/bun"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="click"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbarOleoMotor" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarOleoMotor">
+        app:layout_constraintTop_toBottomOf="@+id/bun">
 
         <TextView
             android:id="@+id/txtSensorOleoMotor"

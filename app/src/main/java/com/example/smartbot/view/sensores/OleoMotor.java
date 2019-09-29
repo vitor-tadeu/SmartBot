@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +35,13 @@ public class OleoMotor extends AppCompatActivity {
         toolbar();
         SDL();
         init();
+        Button button = findViewById(R.id.bun);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initThreadVerificaLeitura();
+            }
+        });
     }
 
     @Override
@@ -48,16 +57,16 @@ public class OleoMotor extends AppCompatActivity {
         if (id == R.id.menu_off) {
             if (Config.sdlServiceIsActive) {
                 Toast.makeText(this, "Conexão SYNC: Conectado", Toast.LENGTH_SHORT).show();
+                menu.getItem(0).setTitle("ON");
                 if (Config.isSubscribing) {
                     TelematicsCollector.getInstance().setUnssubscribeVehicleData();
-                    menu.getItem(0).setTitle("ON");
                     initThreadVerificaLeitura();
                 } else {
                     TelematicsCollector.getInstance().setSubscribeVehicleData();
-                    menu.getItem(0).setTitle("OFF");
                 }
             } else {
                 Toast.makeText(this, "Conexão SYNC: Desconectado", Toast.LENGTH_SHORT).show();
+                menu.getItem(0).setTitle("OFF");
             }
             return true;
         }
@@ -95,28 +104,16 @@ public class OleoMotor extends AppCompatActivity {
                     handler.post(new Runnable() {
                         @SuppressLint("SetTextI18n")
                         public void run() {
-                            mOleoMotor.setText("Posição do pedal: " + (VehicleData.getInstance().getAccPedalPosition())
-                                    + "\n" + "Cintos de segurança: " + (VehicleData.getInstance().getBeltStatus())
-                                    + "\n" + "Status da porta: " + (VehicleData.getInstance().getBodyInformation())
-                                    + "\n" + "modo de energia: " + (VehicleData.getInstance().getClusterModeStatus())
-                                    + "\n" + "Status smartphone: " + (VehicleData.getInstance().getDeviceStatus())
-                                    + "\n" + "pedal do freio: " + (VehicleData.getInstance().getDriverBraking())
+                            mOleoMotor.setText("pedal do freio: " + (VehicleData.getInstance().getDriverBraking())
                                     + "\n" + "Evento de emergência: " + (VehicleData.getInstance().getEmergencyEvent())
                                     + "\n" + "Oleo do motor: " + (VehicleData.getInstance().getEngineOilLife())
                                     + "\n" + "Torque do motor: " + (VehicleData.getInstance().getEngineTorque())
-                                    + "\n" + "Temperatura Externa: " + (VehicleData.getInstance().getExternalTemperature())
-                                    + "\n" + "Nível de combustível: " + (VehicleData.getInstance().getFuelLevel())
                                     + "\n" + "Status da lâmpada: " + (VehicleData.getInstance().getHeadLampStatus())
                                     + "\n" + "Consumo instantâneo de combustível: " + (VehicleData.getInstance().getInstantFuelConsumption())
                                     + "\n" + "Odômetro: " + (VehicleData.getInstance().getOdometer())
-                                    + "\n" + "Marcha : " + (VehicleData.getInstance().getPrndl())
-                                    + "\n" + "Velocidade: " + (VehicleData.getInstance().getSpeed())
                                     + "\n" + "Ângulo do volante: " + (VehicleData.getInstance().getSteeringWheelAngle())
                                     + "\n" + "Pressão do pneu: " + (VehicleData.getInstance().getTirePressure())
-                                    + "\n" + "Status do pisca-pisca: " + (VehicleData.getInstance().getTurnSignal())
-                                    + "\n" + "RPM: " + (VehicleData.getInstance().getRpm())
-                                    + "\n" + "VIN: " + (VehicleData.getInstance().getVin())
-                                    + "\n" + "Status do limpador: " + (VehicleData.getInstance().getWiperStatus()));
+                                    + "\n" + "Status do pisca-pisca: " + (VehicleData.getInstance().getTurnSignal()));
                         }
                     });
                     try {

@@ -4,29 +4,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.sensores.Marcha">
+    tools:context=".view.sensores.Temperatura">
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:text="Nível atual:"
+        android:text="Temperatura Externa:"
         android:textColor="@android:color/black"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarMarcha" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbarTemperatura" />
 
     <TextView
-        android:id="@+id/txtSensorMarcha"
+        android:id="@+id/txtSensorTemperaturaExterna"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:paddingStart="10dp"
-        android:text="PARK"
+        android:text="20º"
         android:textColor="@android:color/black"
         android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@+id/textView"
@@ -34,6 +34,6 @@
         tools:ignore="RtlSymmetry" />
 
     <include
-        android:id="@+id/toolbarMarcha"
+        android:id="@+id/toolbarTemperatura"
         layout="@layout/toolbar" />
 </android.support.constraint.ConstraintLayout>

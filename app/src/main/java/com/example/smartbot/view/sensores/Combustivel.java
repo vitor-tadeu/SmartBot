@@ -4,10 +4,13 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,10 +22,13 @@ import com.example.smartbot.controller.sdl.SdlReceiver;
 import com.example.smartbot.controller.sdl.SdlService;
 import com.example.smartbot.controller.sdl.TelematicsCollector;
 import com.example.smartbot.controller.sdl.VehicleData;
+import com.example.smartbot.menu.fragments.Nearby;
 
 public class Combustivel extends AppCompatActivity {
     private static final String TAG = "Combustivel";
-    private TextView mCombustivel;
+    private TextView mCombustivel, mMensagem;
+    private FloatingActionButton mFAB;
+    private String result, nivel;
     private Handler handler;
     private Menu menu;
 
@@ -33,6 +39,7 @@ public class Combustivel extends AppCompatActivity {
         toolbar();
         SDL();
         init();
+        fab();
     }
 
     @Override
@@ -48,16 +55,16 @@ public class Combustivel extends AppCompatActivity {
         if (id == R.id.menu_off) {
             if (Config.sdlServiceIsActive) {
                 Toast.makeText(this, "Conexão SYNC: Conectado", Toast.LENGTH_SHORT).show();
+                menu.getItem(0).setTitle("ON");
                 if (Config.isSubscribing) {
                     TelematicsCollector.getInstance().setUnssubscribeVehicleData();
-                    menu.getItem(0).setTitle("ON");
                     initThreadVerificaLeitura();
                 } else {
                     TelematicsCollector.getInstance().setSubscribeVehicleData();
-                    menu.getItem(0).setTitle("OFF");
                 }
             } else {
                 Toast.makeText(this, "Conexão SYNC: Desconectado", Toast.LENGTH_SHORT).show();
+                menu.getItem(0).setTitle("OFF");
             }
             return true;
         }
@@ -69,7 +76,7 @@ public class Combustivel extends AppCompatActivity {
     private void toolbar() {
         Toolbar toolbar = findViewById(R.id.toolbarCombustivel);
         toolbar.setNavigationIcon(R.drawable.menu_voltar);
-        toolbar.setTitle("Nível do Combustível");
+        toolbar.setTitle("Combustível");
         setSupportActionBar(toolbar);
     }
 
@@ -85,6 +92,8 @@ public class Combustivel extends AppCompatActivity {
 
     private void init() {
         mCombustivel = findViewById(R.id.txtSensorCombustivel);
+        mMensagem = findViewById(R.id.txtNivelMsg);
+        mFAB = findViewById(R.id.fabCombustivel);
     }
 
     @SuppressLint("SetTextI18n")
@@ -96,8 +105,10 @@ public class Combustivel extends AppCompatActivity {
                     handler.post(new Runnable() {
                         @SuppressLint("SetTextI18n")
                         public void run() {
-                            mCombustivel.setText("Nível de combustível: " + (VehicleData.getInstance().getFuelLevel())
-                                    + "\n" + "Consumo instantâneo de combustível: " + (VehicleData.getInstance().getInstantFuelConsumption()));
+                            result = String.valueOf((VehicleData.getInstance().getFuelLevel()));
+                            nivel = result.substring(0, 2);
+                            mCombustivel.setText(nivel + "%");
+                            setMensagem();
                         }
                     });
                     try {
@@ -110,6 +121,38 @@ public class Combustivel extends AppCompatActivity {
         };
         Thread thread = new Thread(runnable);
         thread.start();
+    }
+
+    private void setMensagem() {
+        int value = Integer.valueOf(nivel);
+        mMensagem.setVisibility(View.VISIBLE);
+        try {
+            if (value >= 80) {
+                mMensagem.setText("O nível de combustível está alto!");
+            } else if (value >= 60) {
+                mMensagem.setText("O nível de combustível está razoável!");
+            } else if (value >= 40) {
+                mMensagem.setText("O nível de combustível está baixo!");
+            } else if (value >= 20) {
+                mMensagem.setText("Procure postos ao redor para abastecer!");
+            } else mMensagem.setText("Abasteça para não ficar ser combustível!");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void fab() {
+        mFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager manager = getSupportFragmentManager();
+                Nearby nearby = new Nearby();
+                manager.beginTransaction().replace(R.id.container, nearby).commit();
+                Bundle bundle = new Bundle();
+                bundle.putString("Combustivel", "");
+                nearby.setArguments(bundle);
+            }
+        });
     }
 
     @Override
