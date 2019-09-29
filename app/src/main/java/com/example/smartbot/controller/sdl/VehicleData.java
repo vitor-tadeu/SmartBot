@@ -18,67 +18,29 @@ public class VehicleData {
         return INSTANCE;
     }
 
-    private String accPedalPosition;
-    private String beltStatus;
-    private String bodyInformation;
-    private String clusterModeStatus;
-    private String deviceStatus;
+    private Double accPedalPosition;
     private String driverBraking;
     private String emergencyEvent;
-    private String engineOilLife;
-    private String engineTorque;
+    private Double engineOilLife;
+    private Double engineTorque;
     private Double externalTemperature;
     private Double fuelLevel;
     private String headLampStatus;
     private Double instantFuelConsumption;
-    private int odometer;
+    private Double odometer;
     private String prndl;
     private Double speed;
-    private String steeringWheelAngle;
+    private Double steeringWheelAngle;
     private String tirePressure;
     private Double turnSignal;
     private int rpm;
-    private String vin;
-    private String wiperStatus;
 
-    public String getAccPedalPosition() {
+    public Double getAccPedalPosition() {
         return accPedalPosition;
     }
 
-    public void setAccPedalPosition(String accPedalPosition) {
+    public void setAccPedalPosition(Double accPedalPosition) {
         this.accPedalPosition = accPedalPosition;
-    }
-
-    public String getBeltStatus() {
-        return beltStatus;
-    }
-
-    public void setBeltStatus(String beltStatus) {
-        this.beltStatus = beltStatus;
-    }
-
-    public String getBodyInformation() {
-        return bodyInformation;
-    }
-
-    public void setBodyInformation(String bodyInformation) {
-        this.bodyInformation = bodyInformation;
-    }
-
-    public String getClusterModeStatus() {
-        return clusterModeStatus;
-    }
-
-    public void setClusterModeStatus(String clusterModeStatus) {
-        this.clusterModeStatus = clusterModeStatus;
-    }
-
-    public String getDeviceStatus() {
-        return deviceStatus;
-    }
-
-    public void setDeviceStatus(String deviceStatus) {
-        this.deviceStatus = deviceStatus;
     }
 
     public String getDriverBraking() {
@@ -97,19 +59,19 @@ public class VehicleData {
         this.emergencyEvent = emergencyEvent;
     }
 
-    public String getEngineOilLife() {
+    public Double getEngineOilLife() {
         return engineOilLife;
     }
 
-    public void setEngineOilLife(String engineOilLife) {
+    public void setEngineOilLife(Double engineOilLife) {
         this.engineOilLife = engineOilLife;
     }
 
-    public String getEngineTorque() {
+    public Double getEngineTorque() {
         return engineTorque;
     }
 
-    public void setEngineTorque(String engineTorque) {
+    public void setEngineTorque(Double engineTorque) {
         this.engineTorque = engineTorque;
     }
 
@@ -145,11 +107,11 @@ public class VehicleData {
         this.instantFuelConsumption = instantFuelConsumption;
     }
 
-    public int getOdometer() {
+    public Double getOdometer() {
         return odometer;
     }
 
-    public void setOdometer(int odometer) {
+    public void setOdometer(Double odometer) {
         this.odometer = odometer;
     }
 
@@ -169,11 +131,11 @@ public class VehicleData {
         this.speed = speed;
     }
 
-    public String getSteeringWheelAngle() {
+    public Double getSteeringWheelAngle() {
         return steeringWheelAngle;
     }
 
-    public void setSteeringWheelAngle(String steeringWheelAngle) {
+    public void setSteeringWheelAngle(Double steeringWheelAngle) {
         this.steeringWheelAngle = steeringWheelAngle;
     }
 
@@ -199,22 +161,6 @@ public class VehicleData {
 
     public void setRpm(int rpm) {
         this.rpm = rpm;
-    }
-
-    public String getVin() {
-        return vin;
-    }
-
-    public void setVin(String vin) {
-        this.vin = vin;
-    }
-
-    public String getWiperStatus() {
-        return wiperStatus;
-    }
-
-    public void setWiperStatus(String wiperStatus) {
-        this.wiperStatus = wiperStatus;
     }
 
     //processar a resposta para o SUBSCRIBE
@@ -260,24 +206,8 @@ public class VehicleData {
         Log.i(TAG, "key: " + key);
         switch (key) {
             case "accPedalPosition":
-                setAccPedalPosition(value.toString());
+                setAccPedalPosition(Double.valueOf(value.toString()));
                 Log.i(TAG, "accPedalPosition: " + value.toString());
-                break;
-            case "beltStatus":
-                setBeltStatus(value.toString());
-                Log.i(TAG, "beltStatus: " + value.toString());
-                break;
-            case "bodyInformation":
-                setBodyInformation(value.toString());
-                Log.i(TAG, "bodyInformation: " + value.toString());
-                break;
-            case "clusterModeStatus":
-                setClusterModeStatus(value.toString());
-                Log.i(TAG, "clusterModeStatus: " + value.toString());
-                break;
-            case "deviceStatus":
-                setDeviceStatus(value.toString());
-                Log.i(TAG, "deviceStatus: " + value.toString());
                 break;
             case "driverBraking":
                 setDriverBraking(value.toString());
@@ -288,19 +218,19 @@ public class VehicleData {
                 Log.i(TAG, "emergencyEvent: " + value.toString());
                 break;
             case "engineOilLife":
-                setEngineOilLife(value.toString());
+                setEngineOilLife(Double.valueOf(value.toString()));
                 Log.i(TAG, "engineOilLife: " + value.toString());
                 break;
             case "engineTorque":
-                setEngineTorque(value.toString());
+                setEngineTorque(Double.valueOf(value.toString()));
                 Log.i(TAG, "engineTorque: " + value.toString());
                 break;
             case "externalTemperature":
-                setExternalTemperature(Double.parseDouble(value.toString()));
+                setExternalTemperature(Double.valueOf((value.toString())));
                 Log.i(TAG, "externalTemperature: " + value.toString());
                 break;
             case "fuelLevel":
-                setFuelLevel(Double.parseDouble(value.toString()));
+                setFuelLevel(Double.valueOf(value.toString()));
                 Log.i(TAG, "fuelLevel: " + value.toString());
                 break;
             case "headLampStatus":
@@ -308,11 +238,11 @@ public class VehicleData {
                 Log.i(TAG, "headLampStatus: " + value.toString());
                 break;
             case "instantFuelConsumption":
-                setInstantFuelConsumption(Double.parseDouble(value.toString()));
+                setInstantFuelConsumption(Double.valueOf(value.toString()));
                 Log.i(TAG, "instantFuelConsumption: " + value.toString());
                 break;
             case "odometer":
-                setOdometer(Integer.parseInt(value.toString()));
+                setOdometer(Double.valueOf(value.toString()));
                 Log.i(TAG, "odometer: " + value.toString());
                 break;
             case "prndl":
@@ -320,11 +250,11 @@ public class VehicleData {
                 Log.i(TAG, "prndl: " + value.toString());
                 break;
             case "speed":
-                setSpeed(Double.parseDouble(value.toString()));
+                setSpeed(Double.valueOf(value.toString()));
                 Log.i(TAG, "speed: " + value.toString());
                 break;
             case "steeringWheelAngle":
-                setSteeringWheelAngle(value.toString());
+                setSteeringWheelAngle(Double.valueOf(value.toString()));
                 Log.i(TAG, "steeringWheelAngle: " + value.toString());
                 break;
             case "tirePressure":
@@ -340,14 +270,6 @@ public class VehicleData {
             case "rpm":
                 setRpm(Integer.parseInt(value.toString()));
                 Log.i(TAG, "rpm: " + value.toString());
-                break;
-            case "vin":
-                setVin(value.toString());
-                Log.i(TAG, "vin: " + value.toString());
-                break;
-            case "wiperStatus":
-                setWiperStatus(value.toString());
-                Log.i(TAG, "wiperStatus: " + value.toString());
                 break;
         }
     }
