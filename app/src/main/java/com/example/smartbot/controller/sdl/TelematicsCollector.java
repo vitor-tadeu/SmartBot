@@ -33,10 +33,6 @@ public class TelematicsCollector {
 
         GetVehicleData vdRequest = new GetVehicleData();
         vdRequest.setAccPedalPosition(true);
-        vdRequest.setBeltStatus(true);
-        vdRequest.setBodyInformation(true);
-        vdRequest.setClusterModeStatus(true);
-        vdRequest.setDeviceStatus(true);
         vdRequest.setDriverBraking(true);
         vdRequest.setEmergencyEvent(true);
         vdRequest.setEngineOilLife(true);
@@ -52,8 +48,6 @@ public class TelematicsCollector {
         vdRequest.setTirePressure(true);
         vdRequest.setTurnSignal(true);
         vdRequest.setRpm(true);
-        vdRequest.setVin(true);
-        vdRequest.setWiperStatus(true);
 
         vdRequest.setOnRPCResponseListener(new OnRPCResponseListener() {
             @Override
@@ -82,10 +76,6 @@ public class TelematicsCollector {
 
         GetVehicleData vdRequest = new GetVehicleData();
         vdRequest.setAccPedalPosition(true);
-        vdRequest.setBeltStatus(true);
-        vdRequest.setBodyInformation(true);
-        vdRequest.setClusterModeStatus(true);
-        vdRequest.setDeviceStatus(true);
         vdRequest.setDriverBraking(true);
         vdRequest.setEmergencyEvent(true);
         vdRequest.setEngineOilLife(true);
@@ -101,8 +91,6 @@ public class TelematicsCollector {
         vdRequest.setTirePressure(true);
         vdRequest.setTurnSignal(true);
         vdRequest.setRpm(true);
-        vdRequest.setVin(true);
-        vdRequest.setWiperStatus(true);
 
         vdRequest.setOnRPCResponseListener(rpcResponseListener);
         Config.sdlManager.sendRPC(vdRequest);
@@ -120,10 +108,6 @@ public class TelematicsCollector {
 
         SubscribeVehicleData subscribeRequest = new SubscribeVehicleData();
         subscribeRequest.setAccPedalPosition(true);
-        subscribeRequest.setBeltStatus(true);
-        subscribeRequest.setBodyInformation(true);
-        subscribeRequest.setClusterModeStatus(true);
-        subscribeRequest.setDeviceStatus(true);
         subscribeRequest.setDriverBraking(true);
         subscribeRequest.setEmergencyEvent(true);
         subscribeRequest.setEngineOilLife(true);
@@ -139,7 +123,6 @@ public class TelematicsCollector {
         subscribeRequest.setTirePressure(true);
         subscribeRequest.setTurnSignal(true);
         subscribeRequest.setRpm(true);
-        subscribeRequest.setWiperStatus(true);
 
         Config.sdlManager.addOnRPCNotificationListener(FunctionID.ON_VEHICLE_DATA, new OnRPCNotificationListener() {
             @Override
@@ -174,10 +157,6 @@ public class TelematicsCollector {
 
         UnsubscribeVehicleData unsubscribeRequest = new UnsubscribeVehicleData();
         unsubscribeRequest.setAccPedalPosition(true);
-        unsubscribeRequest.setBeltStatus(true);
-        unsubscribeRequest.setBodyInformation(true);
-        unsubscribeRequest.setClusterModeStatus(true);
-        unsubscribeRequest.setDeviceStatus(true);
         unsubscribeRequest.setDriverBraking(true);
         unsubscribeRequest.setEmergencyEvent(true);
         unsubscribeRequest.setEngineOilLife(true);
@@ -193,7 +172,6 @@ public class TelematicsCollector {
         unsubscribeRequest.setTirePressure(true);
         unsubscribeRequest.setTurnSignal(true);
         unsubscribeRequest.setRpm(true);
-        unsubscribeRequest.setWiperStatus(true);
 
         unsubscribeRequest.setOnRPCResponseListener(new OnRPCResponseListener() {
             @Override
