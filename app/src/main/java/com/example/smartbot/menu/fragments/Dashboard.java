@@ -50,6 +50,7 @@ import com.example.smartbot.controller.sdl.SdlReceiver;
 import com.example.smartbot.controller.sdl.SdlService;
 import com.example.smartbot.controller.sdl.TelematicsCollector;
 import com.example.smartbot.controller.sdl.VehicleData;
+import com.example.smartbot.controller.utils.AssistenteDicas;
 import com.example.smartbot.controller.utils.Constants;
 import com.example.smartbot.model.Sensor;
 import com.example.smartbot.view.sensores.Combustivel;
@@ -144,24 +145,19 @@ public class Dashboard extends Fragment implements OnItemClickListener {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.menu_off) {
-//            menu.getItem(0).setVisible(true);
-//            menu.getItem(1).setVisible(false);
             if (Config.sdlServiceIsActive) {
                 Toast.makeText(getActivity(), "Conexão SYNC: Conectado", Toast.LENGTH_SHORT).show();
+                menu.getItem(0).setTitle("ON");
                 if (Config.isSubscribing) {
                     TelematicsCollector.getInstance().setUnssubscribeVehicleData();
-                    menu.getItem(0).setTitle("ON");
                 } else {
                     TelematicsCollector.getInstance().setSubscribeVehicleData();
-                    menu.getItem(0).setTitle("OFF");
                 }
             } else {
                 Toast.makeText(getActivity(), "Conexão SYNC: Desconectado", Toast.LENGTH_SHORT).show();
+                menu.getItem(0).setTitle("OFF");
             }
             return true;
-//        } else if (id == R.id.menu_on){
-//            menu.getItem(1).setVisible(true);
-//            menu.getItem(0).setVisible(false);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -537,8 +533,8 @@ public class Dashboard extends Fragment implements OnItemClickListener {
             @Override
             public boolean onLongClick(View v) {
                 Context context = getActivity();
-                startActivity(new Intent(getActivity(), Temperatura.class));
-                Animatoo.animateFade(context);
+                startActivity(new Intent(getActivity(), AssistenteDicas.class));
+                Animatoo.animateFade(Objects.requireNonNull(context));
                 return true;
             }
         });
@@ -605,28 +601,32 @@ public class Dashboard extends Fragment implements OnItemClickListener {
         if (command.contains("qual") || command.contains("como")) {
             if (command.contains("seu nome")) {
                 speak(mTempo.getText().toString() + " " + mNome.getText().toString() + ". Meu nome é Lóri, tudo bem?");
-            } else if (command.contains("temperatura")) {
-                speak("A temperatura externa é de " + mTemperatura + "º");
             } else if (command.contains("nível")) {
                 if (command.contains("combustível")) {
                     speak("O nível do combustível atual é " + mCombustivel.substring(0, 2) + "%");
                 }
+            } else if (command.contains("temperatura")) {
+                speak("No momento a temperatura é " + mTemperatura + "º");
             } else if (command.contains("velocidade")) {
-                speak("A sua velocidade é de " + mVelocidade);
+                speak("A sua velocidade é de " + mVelocidade + "km/h");
+            } else if (command.contains("rpm")) {
+                speak("Seu motor está à " + mRPM + "rpm");
             }
         } else if (command.contains("horas")) {
             String time = DateUtils.formatDateTime(getActivity(), new Date().getTime(), DateUtils.FORMAT_SHOW_TIME);
             speak("Agora é: " + time);
-        } else if (command.contains("próximo")) {
-            if (command.contains("concessionária ford")) {
-                speak("Aqui está a lista de concessionária perto da sua região");
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/maps/search/Concessionária+Ford/@" + mCoordenadas + ",12z")));
-                    }
-                }, 4000);
+        } else if (command.contains("concessionária")) {
+            if (command.contains("próximas")) {
+                if (command.contains("ford")) {
+                    speak("Aqui está a lista de concessionária perto da sua região");
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/maps/search/Concessionária+Ford/@" + mCoordenadas + ",12z")));
+                        }
+                    }, 4000);
+                }
             }
         } else if (command.contains("abrir")) {
             if (command.contains("combustível")) {
@@ -697,7 +697,8 @@ public class Dashboard extends Fragment implements OnItemClickListener {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         if (requestCode == Constants.RESULT_SPEECH) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Log.i(TAG, "Permissao aceita");

@@ -40,6 +40,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden" />
+        <!-- Assistente -->
+        <activity
+            android:name=".controller.utils.AssistenteDicas"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBarSensor"
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <!-- Sensores -->
         <activity
             android:name=".view.sensores.Combustivel"
@@ -124,7 +130,6 @@
             android:enabled="true"
             android:exported="true"
             tools:ignore="ExportedService" />
-
         <service
             android:name=".controller.sdl.SdlRouterService"
             android:enabled="true"
@@ -142,7 +147,6 @@
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
-
     </application>
 
     <uses-feature android:name="android.hardware.bluetooth" />
@@ -156,6 +160,7 @@
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
 </manifest>

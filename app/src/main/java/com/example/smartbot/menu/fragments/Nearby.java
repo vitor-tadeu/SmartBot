@@ -93,6 +93,7 @@ public class Nearby extends Fragment implements OnItemClickListener, Lugares.Bot
         GPSOnOff();
         checkPreferences();
         fab();
+        getCombustivel();
         return view;
     }
 
@@ -585,6 +586,20 @@ public class Nearby extends Fragment implements OnItemClickListener, Lugares.Bot
             }
         } catch (NullPointerException e) {
             Log.i(TAG, "Não foi possivel abrir o mapa" + e.getMessage());
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void getCombustivel() {
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            bundle.getString("Combustivel");
+            mType = "gas_station";
+            mName = "gas_station";
+            mProgress = "Buscando postos...";
+            mErro.setText("Nenhum posto encontrado aberto, tente aumentar o raio.");
+            Objects.requireNonNull(getActivity()).setTitle("Postos de Gasolina");
+            responseAPIPlaces();
         }
     }
 
