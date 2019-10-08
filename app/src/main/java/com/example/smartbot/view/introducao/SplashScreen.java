@@ -32,9 +32,11 @@ public class SplashScreen extends AppCompatActivity {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE)
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION}, Constants.REQUEST_ACCESS_FINE_LOCATION);
+                    Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.READ_PHONE_STATE}, Constants.REQUEST_PERMISSIOIN);
             Log.i(TAG, "Solicita permissao de acesso ao GPS");
         } else {
             if (checkGoogleServices()) {
@@ -74,7 +76,7 @@ public class SplashScreen extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == Constants.REQUEST_ACCESS_FINE_LOCATION) {
+        if (requestCode == Constants.REQUEST_PERMISSIOIN) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 if (checkGoogleServices()) {
                     intro();
