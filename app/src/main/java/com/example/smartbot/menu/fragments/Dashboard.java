@@ -35,6 +35,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -249,19 +250,19 @@ public class Dashboard extends Fragment implements OnItemClickListener {
             @Override
             public void onClick(View v) {
                 android.support.v7.app.AlertDialog.Builder mBuilder = new android.support.v7.app.AlertDialog.Builder(Objects.requireNonNull(getActivity()));
-                LinearLayout mLayout = new LinearLayout(getActivity());
-                TextView mTvMessage = new TextView(getActivity());
-                final EditText mEtInput = new EditText(getActivity());
+                LinearLayout layout = new LinearLayout(getActivity());
+                TextView view = new TextView(getActivity());
+                final EditText nome = new EditText(getActivity());
 
-                mTvMessage.setText(getString(R.string.dashboard_usuario));
-                mTvMessage.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18f);
-                mEtInput.setSingleLine();
-                mLayout.setOrientation(LinearLayout.VERTICAL);
-                mLayout.addView(mTvMessage);
-                mLayout.addView(mEtInput);
-                mLayout.setPadding(50, 40, 50, 10);
-
-                mBuilder.setView(mLayout);
+                view.setText(getString(R.string.dashboard_usuario));
+                view.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18f);
+                nome.setSingleLine();
+                nome.setImeOptions(EditorInfo.IME_ACTION_DONE);
+                layout.setOrientation(LinearLayout.VERTICAL);
+                layout.addView(view);
+                layout.addView(nome);
+                layout.setPadding(50, 40, 50, 10);
+                mBuilder.setView(layout);
 
                 mBuilder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                     @Override
@@ -273,10 +274,10 @@ public class Dashboard extends Fragment implements OnItemClickListener {
                 mBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        if (mEtInput.getText().toString().isEmpty()) {
+                        if (nome.getText().toString().isEmpty()) {
                             dialogInterface.dismiss();
                         } else {
-                            String name = mEtInput.getText().toString();
+                            String name = nome.getText().toString();
                             mNome.setText(name);
                             mPreferences.edit().putString(Constants.USUARIO, name).apply();
                         }
