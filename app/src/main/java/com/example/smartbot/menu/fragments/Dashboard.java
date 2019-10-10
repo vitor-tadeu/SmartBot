@@ -29,9 +29,6 @@ import android.text.format.DateUtils;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,7 +53,6 @@ import com.example.smartbot.controller.utils.Constants;
 import com.example.smartbot.model.Sensor;
 import com.example.smartbot.view.sensores.Combustivel;
 import com.example.smartbot.view.sensores.Marcha;
-import com.example.smartbot.view.sensores.OleoMotor;
 import com.example.smartbot.view.sensores.PosicaoPedal;
 import com.example.smartbot.view.sensores.RPM;
 import com.example.smartbot.view.sensores.Temperatura;
@@ -80,9 +76,8 @@ public class Dashboard extends Fragment implements OnItemClickListener {
 
     private TextView mTempo, mNome;
     private FloatingActionButton mMicrofone;
-    private String mCoordenadas, mCombustivel, mTemperatura, mVelocidade, mRPM, mMarcha, mPosicaoPedal;
+    private String mCoordenadas, mCombustivel, mTemperatura;
     private boolean firstStart;
-    private Menu menu;
     private View view;
 
     private RecyclerView mRecyclerView;
@@ -118,6 +113,7 @@ public class Dashboard extends Fragment implements OnItemClickListener {
         microfone();
         GPSOnOff();
         getSensor();
+        SDLOnOff();
         return view;
     }
 
@@ -133,34 +129,6 @@ public class Dashboard extends Fragment implements OnItemClickListener {
     public void onPause() {
         super.onPause();
         mTTS.shutdown();
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        this.menu = menu;
-        inflater.inflate(R.menu.dashboard, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.menu_off) {
-            if (Config.sdlServiceIsActive) {
-                Toast.makeText(getActivity(), "Conexão SYNC: Conectado", Toast.LENGTH_SHORT).show();
-                menu.getItem(0).setTitle("ON");
-                if (Config.isSubscribing) {
-                    TelematicsCollector.getInstance().setUnssubscribeVehicleData();
-                } else {
-                    TelematicsCollector.getInstance().setSubscribeVehicleData();
-                }
-            } else {
-                Toast.makeText(getActivity(), "Conexão SYNC: Desconectado", Toast.LENGTH_SHORT).show();
-                menu.getItem(0).setTitle("OFF");
-            }
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     private void GPSOnOff() {
@@ -199,6 +167,19 @@ public class Dashboard extends Fragment implements OnItemClickListener {
         } else if (BuildConfig.TRANSPORT.equals("TCP")) {
             Intent proxyIntent = new Intent(getActivity(), SdlService.class);
             getActivity().startService(proxyIntent);
+        }
+    }
+
+    private void SDLOnOff() {
+        if (Config.sdlServiceIsActive) {
+            if (Config.isSubscribing) {
+                TelematicsCollector.getInstance().setUnssubscribeVehicleData();
+            } else {
+                TelematicsCollector.getInstance().setSubscribeVehicleData();
+            }
+            Toast.makeText(getActivity(), "Conexão SYNC: Conectado", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getActivity(), "Conexão SYNC: Desconectado", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -310,22 +291,12 @@ public class Dashboard extends Fragment implements OnItemClickListener {
     private ArrayList<String> nomeSensor() {
         nomeSensor.add("Combustível");
         nomeSensor.add("Temperatura");
-        nomeSensor.add("Velocidade");
-        nomeSensor.add("RPM");
-        nomeSensor.add("Marcha");
-        nomeSensor.add("Posição do Pedal");
-        nomeSensor.add("Óleo do Motor");
         return nomeSensor;
     }
 
     private ArrayList<Integer> imagem() {
         imagem.add(R.drawable.sensor_combustivel);
         imagem.add(R.drawable.sensor_temperatura);
-        imagem.add(R.drawable.sensor_velocimetro);
-        imagem.add(R.drawable.sensor_velocimetro);
-        imagem.add(R.drawable.sensor_marcha);
-        imagem.add(R.drawable.sensor_pneu);
-        imagem.add(R.drawable.sensor_oleo_motor);
         return imagem;
     }
 
@@ -387,6 +358,34 @@ public class Dashboard extends Fragment implements OnItemClickListener {
     }
 
     private void apresentacao3() {
+        showcaseView = new ShowcaseView.Builder(Objects.requireNonNull(getActivity()))
+                .setTarget(new ViewTarget(mMicrofone))
+                .setStyle(R.style.ShowCase1)
+                .blockAllTouches()
+                .setContentTitle("Assistente")
+                .setContentText("Segure o microfone para ver sugestões.")
+                .setShowcaseEventListener(new OnShowcaseEventListener() {
+                    @Override
+                    public void onShowcaseViewHide(ShowcaseView showcaseView) {
+                    }
+
+                    @Override
+                    public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+                        apresentacao4();
+                    }
+
+                    @Override
+                    public void onShowcaseViewShow(ShowcaseView showcaseView) {
+                    }
+
+                    @Override
+                    public void onShowcaseViewTouchBlocked(MotionEvent motionEvent) {
+                    }
+                });
+        showcaseView.build();
+    }
+
+    private void apresentacao4() {
         showcaseView = new ShowcaseView.Builder(Objects.requireNonNull(getActivity()))
                 .setTarget(new ViewTarget(R.id.menu_places, getActivity()))
                 .setStyle(R.style.ShowCase3)
@@ -480,6 +479,34 @@ public class Dashboard extends Fragment implements OnItemClickListener {
     }
 
     private void tour3() {
+        showcaseView = new ShowcaseView.Builder(Objects.requireNonNull(getActivity()))
+                .setTarget(new ViewTarget(mMicrofone))
+                .setStyle(R.style.ShowCase1)
+                .blockAllTouches()
+                .setContentTitle("Assistente")
+                .setContentText("Segure o microfone para ver sugestões.")
+                .setShowcaseEventListener(new OnShowcaseEventListener() {
+                    @Override
+                    public void onShowcaseViewHide(ShowcaseView showcaseView) {
+                    }
+
+                    @Override
+                    public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
+                        tour4();
+                    }
+
+                    @Override
+                    public void onShowcaseViewShow(ShowcaseView showcaseView) {
+                    }
+
+                    @Override
+                    public void onShowcaseViewTouchBlocked(MotionEvent motionEvent) {
+                    }
+                });
+        showcaseView.build();
+    }
+
+    private void tour4() {
         showcaseView = new ShowcaseView.Builder(Objects.requireNonNull(getActivity()))
                 .setTarget(new ViewTarget(R.id.menu_places, getActivity()))
                 .setStyle(R.style.ShowCase3)
@@ -608,10 +635,6 @@ public class Dashboard extends Fragment implements OnItemClickListener {
                 }
             } else if (command.contains("temperatura")) {
                 speak("No momento a temperatura é " + mTemperatura + "º");
-            } else if (command.contains("velocidade")) {
-                speak("A sua velocidade é de " + mVelocidade + "km/h");
-            } else if (command.contains("rpm")) {
-                speak("Seu motor está à " + mRPM + "rpm");
             }
         } else if (command.contains("horas")) {
             String time = DateUtils.formatDateTime(getActivity(), new Date().getTime(), DateUtils.FORMAT_SHOW_TIME);
@@ -691,10 +714,6 @@ public class Dashboard extends Fragment implements OnItemClickListener {
     private void getSensor() {
         mCombustivel = String.valueOf(((VehicleData.getInstance().getFuelLevel())));
         mTemperatura = String.valueOf(((VehicleData.getInstance().getExternalTemperature())));
-        mVelocidade = String.valueOf(((VehicleData.getInstance().getSpeed())));
-        mRPM = String.valueOf(((VehicleData.getInstance().getRpm())));
-        mMarcha = ((VehicleData.getInstance().getPrndl()));
-        mPosicaoPedal = String.valueOf(((VehicleData.getInstance().getEngineOilLife())));
     }
 
     @Override
@@ -725,26 +744,6 @@ public class Dashboard extends Fragment implements OnItemClickListener {
                 break;
             case "Temperatura":
                 startActivity(new Intent(getActivity(), Temperatura.class));
-                Animatoo.animateSlideLeft(context);
-                break;
-            case "Velocidade":
-                startActivity(new Intent(getActivity(), Velocidade.class));
-                Animatoo.animateSlideLeft(context);
-                break;
-            case "RPM":
-                startActivity(new Intent(getActivity(), RPM.class));
-                Animatoo.animateSlideLeft(context);
-                break;
-            case "Marcha":
-                startActivity(new Intent(getActivity(), Marcha.class));
-                Animatoo.animateSlideLeft(context);
-                break;
-            case "Posição do Pedal":
-                startActivity(new Intent(getActivity(), PosicaoPedal.class));
-                Animatoo.animateSlideLeft(context);
-                break;
-            case "Óleo do Motor":
-                startActivity(new Intent(getActivity(), OleoMotor.class));
                 Animatoo.animateSlideLeft(context);
                 break;
         }
