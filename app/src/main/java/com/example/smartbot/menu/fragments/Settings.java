@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.smartbot.R;
+import com.example.smartbot.controller.utils.Constants;
 
 import java.util.Objects;
 
@@ -53,10 +54,10 @@ public class Settings extends Fragment {
             public void onClick(View v) {
                 Dashboard dashboard = new Dashboard();
                 Bundle bundle = new Bundle();
-                bundle.putString("configuracao", "");
+                bundle.putString(Constants.CONFIGURACOES, "");
                 dashboard.setArguments(bundle);
                 FragmentTransaction fragmentTransaction1 = Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction();
-                fragmentTransaction1.replace(R.id.frame, dashboard, "configuracao");
+                fragmentTransaction1.replace(R.id.frame, dashboard);
                 fragmentTransaction1.commit();
             }
         });
