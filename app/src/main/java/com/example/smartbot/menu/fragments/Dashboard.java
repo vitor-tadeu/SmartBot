@@ -658,7 +658,7 @@ public class Dashboard extends Fragment implements OnItemClickListener {
                     || (command.contains("hospitais"))
                     || (command.contains("restaurantes"))
                     || (command.contains("cafeterias"))) {
-                mPlace = command.substring(6);
+                mPlace = command.substring(7);
                 speak("Você quer definir um raio?");
                 flagRaio = 1;
                 delay();

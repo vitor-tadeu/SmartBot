@@ -453,8 +453,8 @@ public class Nearby extends Fragment implements OnItemClickListener, Lugares.Bot
     private void setNomeAssistente() {
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            mLugar = bundle.getString(Constants.FILTRO_ASSISTENTE);
-            Log.i(TAG, "Lugar assistente: " + mFiltro);
+            mLugar = bundle.getString(Constants.PLACE_ASSISTENTE);
+            Log.i(TAG, "Lugar assistente: " + mLugar);
             switch (mLugar) {
                 case "hotéis":
                     mType = "hotel";
@@ -462,7 +462,6 @@ public class Nearby extends Fragment implements OnItemClickListener, Lugares.Bot
                     mProgress = "Buscando hotéis...";
                     mErro.setText("Nenhum hotel encontrado aberto, tente aumentar o raio.");
                     Objects.requireNonNull(getActivity()).setTitle("Hotéis Próximos");
-                    responseAPIPlaces();
                     break;
                 case "posto de gasolina":
                     mType = "gas_station";
@@ -470,7 +469,6 @@ public class Nearby extends Fragment implements OnItemClickListener, Lugares.Bot
                     mProgress = "Buscando postos...";
                     mErro.setText("Nenhum posto encontrado aberto, tente aumentar o raio.");
                     Objects.requireNonNull(getActivity()).setTitle("Postos de Gasolina");
-                    responseAPIPlaces();
                     break;
                 case "estacionamentos":
                     mType = "parking";
@@ -478,7 +476,6 @@ public class Nearby extends Fragment implements OnItemClickListener, Lugares.Bot
                     mProgress = "Buscando estacionamentos...";
                     mErro.setText("Nenhum estacionamento encontrado aberto, tente aumentar o raio.");
                     Objects.requireNonNull(getActivity()).setTitle("Estacionamentos");
-                    responseAPIPlaces();
                     break;
                 case "mecânicas":
                     mType = "car_repair";
@@ -486,7 +483,6 @@ public class Nearby extends Fragment implements OnItemClickListener, Lugares.Bot
                     mProgress = "Buscando mecânicas...";
                     mErro.setText("Nenhuma mecânica encontrada aberta, tente aumentar o raio.");
                     Objects.requireNonNull(getActivity()).setTitle("Mecânicas");
-                    responseAPIPlaces();
                     break;
                 case "hospitais":
                     mType = "hospital";
@@ -494,14 +490,12 @@ public class Nearby extends Fragment implements OnItemClickListener, Lugares.Bot
                     mProgress = "Buscando hospitais...";
                     mErro.setText("Nenhum hospital encontrado aberto, tente aumentar o raio.");
                     Objects.requireNonNull(getActivity()).setTitle("Hospitais");
-                    responseAPIPlaces();
                 case "restaurantes":
                     mType = "restaurant";
                     mName = "restaurant";
                     mProgress = "Buscando restaurantes...";
                     mErro.setText("Nenhum restaurante encontrado aberto, tente aumentar o raio.");
                     Objects.requireNonNull(getActivity()).setTitle("Restaurantes");
-                    responseAPIPlaces();
                     break;
                 case "cafeterias":
                     mType = "cafe";
@@ -509,7 +503,6 @@ public class Nearby extends Fragment implements OnItemClickListener, Lugares.Bot
                     mProgress = "Buscando cafeterias...";
                     mErro.setText("Nenhuma cafeteria encontrada aberta, tente aumentar o raio.");
                     Objects.requireNonNull(getActivity()).setTitle("Cafeterias");
-                    responseAPIPlaces();
                     break;
             }
         }
