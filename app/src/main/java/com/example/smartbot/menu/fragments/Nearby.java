@@ -58,7 +58,7 @@ import static java.lang.Integer.valueOf;
 public class Nearby extends Fragment implements OnItemClickListener, Lugares.BottomSheetListener {
     private static final String TAG = "Nearby";
 
-    public String mCoordenadas, mRaio, mFiltro, mType, mName, mProgress;
+    public String mCoordenadas, mRaio, mLugar, mFiltro, mType, mName, mProgress;
     private FloatingActionButton mFAB;
     private TextView mErro;
     private boolean firstStart;
@@ -342,8 +342,9 @@ public class Nearby extends Fragment implements OnItemClickListener, Lugares.Bot
         try {
             if (!mCoordenadas.isEmpty()) {
                 loading();
+                setRaio();
+                setNomeAssistente();
                 requestAPIPlaces();
-                requestAssistente();
             } else {
                 GPSOnOff();
                 Log.i(TAG, "GPS nao encontrado");
@@ -353,7 +354,7 @@ public class Nearby extends Fragment implements OnItemClickListener, Lugares.Bot
         }
     }
 
-    private void requestAssistente() {
+    private void setRaio() {
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             mRaio = bundle.getString(Constants.RAIO_ASSISTENTE);
@@ -446,9 +447,71 @@ public class Nearby extends Fragment implements OnItemClickListener, Lugares.Bot
                     Collections.sort(mPlaces, Places.OREDEM_MAIOR_AVALIACAO);
                     break;
             }
-        } else {
-            mRaio = mPreferences.getString(Constants.RAIO, "");
-            Log.i(TAG, "Raio enviado a API: " + mRaio);
+        }
+    }
+
+    private void setNomeAssistente() {
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            mLugar = bundle.getString(Constants.FILTRO_ASSISTENTE);
+            Log.i(TAG, "Lugar assistente: " + mFiltro);
+            switch (mLugar) {
+                case "hotéis":
+                    mType = "hotel";
+                    mName = "hotel";
+                    mProgress = "Buscando hotéis...";
+                    mErro.setText("Nenhum hotel encontrado aberto, tente aumentar o raio.");
+                    Objects.requireNonNull(getActivity()).setTitle("Hotéis Próximos");
+                    responseAPIPlaces();
+                    break;
+                case "posto de gasolina":
+                    mType = "gas_station";
+                    mName = "gas_station";
+                    mProgress = "Buscando postos...";
+                    mErro.setText("Nenhum posto encontrado aberto, tente aumentar o raio.");
+                    Objects.requireNonNull(getActivity()).setTitle("Postos de Gasolina");
+                    responseAPIPlaces();
+                    break;
+                case "estacionamentos":
+                    mType = "parking";
+                    mName = "parking";
+                    mProgress = "Buscando estacionamentos...";
+                    mErro.setText("Nenhum estacionamento encontrado aberto, tente aumentar o raio.");
+                    Objects.requireNonNull(getActivity()).setTitle("Estacionamentos");
+                    responseAPIPlaces();
+                    break;
+                case "mecânicas":
+                    mType = "car_repair";
+                    mName = "car_repair";
+                    mProgress = "Buscando mecânicas...";
+                    mErro.setText("Nenhuma mecânica encontrada aberta, tente aumentar o raio.");
+                    Objects.requireNonNull(getActivity()).setTitle("Mecânicas");
+                    responseAPIPlaces();
+                    break;
+                case "hospitais":
+                    mType = "hospital";
+                    mName = "hospital";
+                    mProgress = "Buscando hospitais...";
+                    mErro.setText("Nenhum hospital encontrado aberto, tente aumentar o raio.");
+                    Objects.requireNonNull(getActivity()).setTitle("Hospitais");
+                    responseAPIPlaces();
+                case "restaurantes":
+                    mType = "restaurant";
+                    mName = "restaurant";
+                    mProgress = "Buscando restaurantes...";
+                    mErro.setText("Nenhum restaurante encontrado aberto, tente aumentar o raio.");
+                    Objects.requireNonNull(getActivity()).setTitle("Restaurantes");
+                    responseAPIPlaces();
+                    break;
+                case "cafeterias":
+                    mType = "cafe";
+                    mName = "cafe";
+                    mProgress = "Buscando cafeterias...";
+                    mErro.setText("Nenhuma cafeteria encontrada aberta, tente aumentar o raio.");
+                    Objects.requireNonNull(getActivity()).setTitle("Cafeterias");
+                    responseAPIPlaces();
+                    break;
+            }
         }
     }
 

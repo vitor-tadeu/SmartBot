@@ -46,8 +46,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtMsgEntrada"
-            app:layout_constraintVertical_bias="0.6" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.665" />
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/drawerLayout"
@@ -99,13 +99,13 @@
             app:layout_constraintHorizontal_bias="1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/drawerLayout"
-            app:layout_constraintVertical_bias="0"
+            app:layout_constraintVertical_bias="0.05"
             app:srcCompat="@drawable/fab_microfone" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerViewSensor"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:padding="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

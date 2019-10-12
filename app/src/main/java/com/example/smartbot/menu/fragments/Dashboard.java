@@ -74,7 +74,7 @@ public class Dashboard extends Fragment implements OnItemClickListener {
 
     private TextView mTempo, mNome;
     private FloatingActionButton mMicrofone;
-    private String mCoordenadas, mCombustivel, mTemperatura, mRaio = null, mFiltro = null;
+    private String mCoordenadas, mCombustivel, mTemperatura, mRaio = null, mFiltro = null, mPlace;
     private boolean firstStart;
     private View view;
 
@@ -650,10 +650,19 @@ public class Dashboard extends Fragment implements OnItemClickListener {
                     }, 4000);
                 }
             }
-        } else if (command.contains("buscar hotéis próximos")) {
-            speak("Você deseja aplicar raio?");
-            flagRaio = 1;
-            delay();
+        } else if (command.contains("buscar")) {
+            if (command.contains("hotéis")
+                    || (command.contains("posto de gasolina"))
+                    || (command.contains("estacionamentos"))
+                    || (command.contains("mecânicas"))
+                    || (command.contains("hospitais"))
+                    || (command.contains("restaurantes"))
+                    || (command.contains("cafeterias"))) {
+                mPlace = command.substring(6);
+                speak("Você quer definir um raio?");
+                flagRaio = 1;
+                delay();
+            }
         } else if (command.contains("abrir")) {
             if (command.contains("combustível")) {
                 startActivity(new Intent(getActivity(), Combustivel.class));
@@ -672,7 +681,9 @@ public class Dashboard extends Fragment implements OnItemClickListener {
                     delay2();
                     break;
                 } else if (command.contains("não")) {
-                    openNearby();
+                    speak("E algum filtro?");
+                    flagFiltro = 1;
+                    delay();
                 }
                 break;
             case 2:
@@ -739,7 +750,9 @@ public class Dashboard extends Fragment implements OnItemClickListener {
                     flagFiltro = 2;
                     delay();
                     break;
-                } else if (command.contains("não")) {
+                } else if (command.contains("agora não")) {
+                    mRaio = "10000";
+                    mFiltro = "Distância mais curta";
                     openNearby();
                 }
                 break;
@@ -770,15 +783,17 @@ public class Dashboard extends Fragment implements OnItemClickListener {
     }
 
     private void openNearby() {
-        speak("Fazendo busca de hotéis na sua região");
+        speak("Fazendo busca de " + mPlace + " na sua região");
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 Nearby nearby = new Nearby();
                 Bundle bundle = new Bundle();
+                bundle.putString(Constants.PLACE_ASSISTENTE, mPlace);
                 bundle.putString(Constants.RAIO_ASSISTENTE, mRaio);
                 bundle.putString(Constants.FILTRO_ASSISTENTE, mFiltro);
+                Log.i(TAG, "Place assistente: " + mPlace);
                 Log.i(TAG, "Raio assistente: " + mRaio);
                 Log.i(TAG, "Filtro assistente: " + mFiltro);
                 nearby.setArguments(bundle);
@@ -786,7 +801,7 @@ public class Dashboard extends Fragment implements OnItemClickListener {
                 fragmentTransaction2.replace(R.id.frame, nearby);
                 fragmentTransaction2.commit();
             }
-        }, 4000);
+        }, 7000);
     }
 
     private void delay() {
@@ -825,7 +840,6 @@ public class Dashboard extends Fragment implements OnItemClickListener {
                 RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 2);
         mSR.startListening(intent);
-//        initializeSpeechRecognizer();
     }
 
     private void initializeTextToSpeech() {
