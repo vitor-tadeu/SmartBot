@@ -33,6 +33,7 @@ import com.example.smartbot.controller.adapter.OnItemClickListener;
 import com.example.smartbot.controller.adapter.PlacesViewAdapter;
 import com.example.smartbot.controller.service.APIClientPlaces;
 import com.example.smartbot.controller.service.APIServicePlaces;
+import com.example.smartbot.model.Places;
 import com.example.smartbot.view.Lugares;
 import com.example.smartbot.model.DistanceMatrixAPI;
 import com.example.smartbot.model.PlacesAPI;
@@ -57,7 +58,7 @@ import static java.lang.Integer.valueOf;
 public class Nearby extends Fragment implements OnItemClickListener, Lugares.BottomSheetListener {
     private static final String TAG = "Nearby";
 
-    public String mCoordenadas, mType, mName, mProgress;
+    public String mCoordenadas, mRaio, mFiltro, mType, mName, mProgress;
     private FloatingActionButton mFAB;
     private TextView mErro;
     private boolean firstStart;
@@ -93,7 +94,6 @@ public class Nearby extends Fragment implements OnItemClickListener, Lugares.Bot
         GPSOnOff();
         checkPreferences();
         fab();
-        getCombustivel();
         return view;
     }
 
@@ -145,8 +145,8 @@ public class Nearby extends Fragment implements OnItemClickListener, Lugares.Bot
     private void GPSOnOff() {
         LocationManager manager = (LocationManager) Objects.requireNonNull(getActivity()).getSystemService(Context.LOCATION_SERVICE);
         if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            Log.i(TAG, "GPS desativado");
             openGPSSettings();
+            Log.i(TAG, "GPS desativado");
         } else getCoordenadas();
         Log.i(TAG, "GPS ativado");
     }
@@ -154,7 +154,7 @@ public class Nearby extends Fragment implements OnItemClickListener, Lugares.Bot
     private void apresentacao1() {
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            bundle.getString("apresentacao");
+            bundle.getString(Constants.APRESENTACAO);
             showcaseView = new ShowcaseView.Builder(Objects.requireNonNull(getActivity()))
                     .setTarget(new ViewTarget(mFAB))
                     .setStyle(R.style.ShowCase1)
@@ -188,7 +188,7 @@ public class Nearby extends Fragment implements OnItemClickListener, Lugares.Bot
                 .setTarget(new ViewTarget(mRecyclerView))
                 .setStyle(R.style.ShowCase2)
                 .blockAllTouches()
-                .setContentTitle("Lugares")
+                .setContentTitle("Buscas")
                 .setContentText("Clique em um card para enviar" + "\n" + "a rota ao Google Maps.")
                 .setShowcaseEventListener(new OnShowcaseEventListener() {
                     @Override
@@ -217,7 +217,7 @@ public class Nearby extends Fragment implements OnItemClickListener, Lugares.Bot
     private void tour1() {
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            bundle.getString("tour");
+            bundle.getString(Constants.TOUR);
             showcaseView = new ShowcaseView.Builder(Objects.requireNonNull(getActivity()))
                     .setTarget(new ViewTarget(mFAB))
                     .setStyle(R.style.ShowCase1)
@@ -343,12 +343,24 @@ public class Nearby extends Fragment implements OnItemClickListener, Lugares.Bot
             if (!mCoordenadas.isEmpty()) {
                 loading();
                 requestAPIPlaces();
+                requestAssistente();
             } else {
                 GPSOnOff();
                 Log.i(TAG, "GPS nao encontrado");
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void requestAssistente() {
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            mRaio = bundle.getString(Constants.RAIO_ASSISTENTE);
+            Log.i(TAG, "Raio assistente: " + mRaio);
+        } else {
+            mRaio = mPreferences.getString(Constants.RAIO, "");
+            Log.i(TAG, "Raio enviado a API: " + mRaio);
         }
     }
 
@@ -390,29 +402,54 @@ public class Nearby extends Fragment implements OnItemClickListener, Lugares.Bot
             case "Ordem alfabética": {
                 String strRaio = mPreferences.getString(Constants.FILTRO, "");
                 mPreferences.edit().putString(Constants.FILTRO, strRaio).apply();
-                Collections.sort(mPlaces, com.example.smartbot.model.Places.ORDEM_ALFABETICA_CRESCENTE);
+                Collections.sort(mPlaces, Places.ORDEM_ALFABETICA_CRESCENTE);
                 break;
             }
             case "Distância mais curta": {
                 String strRaio = mPreferences.getString(Constants.FILTRO, "");
                 mPreferences.edit().putString(Constants.FILTRO, strRaio).apply();
-                Collections.sort(mPlaces, com.example.smartbot.model.Places.ORDEM_DISTANCIA_CURTA);
+                Collections.sort(mPlaces, Places.ORDEM_DISTANCIA_CURTA);
                 break;
             }
             case "Tempo mais curto": {
                 String strRaio = mPreferences.getString(Constants.FILTRO, "");
                 mPreferences.edit().putString(Constants.FILTRO, strRaio).apply();
-                Collections.sort(mPlaces, com.example.smartbot.model.Places.ORDEM_TEMPO_CURTO);
+                Collections.sort(mPlaces, Places.ORDEM_TEMPO_CURTO);
                 break;
             }
             case "Maior avaliação": {
                 String strRaio = mPreferences.getString(Constants.FILTRO, "");
                 mPreferences.edit().putString(Constants.FILTRO, strRaio).apply();
-                Collections.sort(mPlaces, com.example.smartbot.model.Places.OREDEM_MAIOR_AVALIACAO);
+                Collections.sort(mPlaces, Places.OREDEM_MAIOR_AVALIACAO);
                 break;
             }
         }
         Log.i(TAG, "Preferences Filtro: " + mPreferences.getString(Constants.FILTRO, ""));
+    }
+
+    private void setFiltroAssistente() {
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            mFiltro = bundle.getString(Constants.FILTRO_ASSISTENTE);
+            Log.i(TAG, "Filtro assistente: " + mFiltro);
+            switch (mFiltro) {
+                case "Ordem alfabética":
+                    Collections.sort(mPlaces, Places.ORDEM_ALFABETICA_CRESCENTE);
+                    break;
+                case "Distância mais curta":
+                    Collections.sort(mPlaces, Places.ORDEM_DISTANCIA_CURTA);
+                    break;
+                case "Tempo mais curto":
+                    Collections.sort(mPlaces, Places.ORDEM_TEMPO_CURTO);
+                    break;
+                case "Maior avaliação":
+                    Collections.sort(mPlaces, Places.OREDEM_MAIOR_AVALIACAO);
+                    break;
+            }
+        } else {
+            mRaio = mPreferences.getString(Constants.RAIO, "");
+            Log.i(TAG, "Raio enviado a API: " + mRaio);
+        }
     }
 
     private void alertDialogRaio() {
@@ -477,9 +514,7 @@ public class Nearby extends Fragment implements OnItemClickListener, Lugares.Bot
     }
 
     public void requestAPIPlaces() {
-        String raio = mPreferences.getString(Constants.RAIO, "");
-        Log.i(TAG, "Raio enviado a API: " + raio);
-        Call<PlacesAPI.Entrada> call = mServicePlaces.getPlaces(mCoordenadas, raio, mType, true, mName, Constants.API_KEY);
+        Call<PlacesAPI.Entrada> call = mServicePlaces.getPlaces(mCoordenadas, mRaio, mType, true, mName, Constants.API_KEY);
         call.enqueue(new Callback<PlacesAPI.Entrada>() {
             @Override
             public void onResponse(@NonNull Call<PlacesAPI.Entrada> call, @NonNull Response<PlacesAPI.Entrada> response) {
@@ -492,7 +527,6 @@ public class Nearby extends Fragment implements OnItemClickListener, Lugares.Bot
                         mPlaces.clear();
                         insertPlaces();
                         mProgressDialog.dismiss();
-                        checkTour();
                     } else if (entrada.status.equals("ZERO_RESULTS")) {
                         removePlaces();
                     }
@@ -555,6 +589,7 @@ public class Nearby extends Fragment implements OnItemClickListener, Lugares.Bot
                                 mAdapterPlaces = new PlacesViewAdapter(getActivity(), mPlacesResponses, mPlaces, Nearby.this);
                                 mRecyclerView.setAdapter(mAdapterPlaces);
                                 setFiltro();
+                                setFiltroAssistente();
                             }
                             mProgressDialog.dismiss();
                         }
@@ -586,20 +621,6 @@ public class Nearby extends Fragment implements OnItemClickListener, Lugares.Bot
             }
         } catch (NullPointerException e) {
             Log.i(TAG, "Não foi possivel abrir o mapa" + e.getMessage());
-        }
-    }
-
-    @SuppressLint("SetTextI18n")
-    private void getCombustivel() {
-        Bundle bundle = this.getArguments();
-        if (bundle != null) {
-            bundle.getString("Combustivel");
-            mType = "gas_station";
-            mName = "gas_station";
-            mProgress = "Buscando postos...";
-            mErro.setText("Nenhum posto encontrado aberto, tente aumentar o raio.");
-            Objects.requireNonNull(getActivity()).setTitle("Postos de Gasolina");
-            responseAPIPlaces();
         }
     }
 

@@ -52,11 +52,7 @@ import com.example.smartbot.controller.utils.AssistenteDicas;
 import com.example.smartbot.controller.utils.Constants;
 import com.example.smartbot.model.Sensor;
 import com.example.smartbot.view.sensores.Combustivel;
-import com.example.smartbot.view.sensores.Marcha;
-import com.example.smartbot.view.sensores.PosicaoPedal;
-import com.example.smartbot.view.sensores.RPM;
 import com.example.smartbot.view.sensores.Temperatura;
-import com.example.smartbot.view.sensores.Velocidade;
 import com.github.amlcurran.showcaseview.OnShowcaseEventListener;
 import com.github.amlcurran.showcaseview.ShowcaseView;
 import com.github.amlcurran.showcaseview.targets.ViewTarget;
@@ -73,10 +69,12 @@ import io.nlopez.smartlocation.SmartLocation;
 
 public class Dashboard extends Fragment implements OnItemClickListener {
     private static final String TAG = "Dashboard";
+    private static int flagRaio = 0;
+    private static int flagFiltro = 0;
 
     private TextView mTempo, mNome;
     private FloatingActionButton mMicrofone;
-    private String mCoordenadas, mCombustivel, mTemperatura;
+    private String mCoordenadas, mCombustivel, mTemperatura, mRaio = null, mFiltro = null;
     private boolean firstStart;
     private View view;
 
@@ -400,10 +398,10 @@ public class Dashboard extends Fragment implements OnItemClickListener {
                     public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
                         Nearby nearby = new Nearby();
                         Bundle bundle = new Bundle();
-                        bundle.putString("apresentacao", "");
+                        bundle.putString(Constants.APRESENTACAO, "");
                         nearby.setArguments(bundle);
                         FragmentTransaction fragmentTransaction2 = Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction();
-                        fragmentTransaction2.replace(R.id.frame, nearby, "apresentacao");
+                        fragmentTransaction2.replace(R.id.frame, nearby);
                         fragmentTransaction2.commit();
                     }
 
@@ -421,7 +419,7 @@ public class Dashboard extends Fragment implements OnItemClickListener {
     private void tour1() {
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            bundle.getString("configuracao");
+            bundle.getString(Constants.CONFIGURACOES);
             showcaseView = new ShowcaseView.Builder(Objects.requireNonNull(getActivity()))
                     .setTarget(new ViewTarget(mNome))
                     .setStyle(R.style.ShowCase1)
@@ -521,10 +519,10 @@ public class Dashboard extends Fragment implements OnItemClickListener {
                     public void onShowcaseViewDidHide(ShowcaseView showcaseView) {
                         Nearby nearby = new Nearby();
                         Bundle bundle = new Bundle();
-                        bundle.putString("tour", "");
+                        bundle.putString(Constants.TOUR, "");
                         nearby.setArguments(bundle);
                         FragmentTransaction fragmentTransaction2 = Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction();
-                        fragmentTransaction2.replace(R.id.frame, nearby, "tour");
+                        fragmentTransaction2.replace(R.id.frame, nearby);
                         fragmentTransaction2.commit();
                     }
 
@@ -652,6 +650,10 @@ public class Dashboard extends Fragment implements OnItemClickListener {
                     }, 4000);
                 }
             }
+        } else if (command.contains("buscar hotéis próximos")) {
+            speak("Você deseja aplicar raio?");
+            flagRaio = 1;
+            delay();
         } else if (command.contains("abrir")) {
             if (command.contains("combustível")) {
                 startActivity(new Intent(getActivity(), Combustivel.class));
@@ -659,20 +661,171 @@ public class Dashboard extends Fragment implements OnItemClickListener {
             } else if (command.contains("temperatura")) {
                 startActivity(new Intent(getActivity(), Temperatura.class));
                 Animatoo.animateSlideLeft(context);
-            } else if (command.contains("velocidade")) {
-                startActivity(new Intent(getActivity(), Velocidade.class));
-                Animatoo.animateSlideLeft(context);
-            } else if (command.contains("rpm")) {
-                startActivity(new Intent(getActivity(), RPM.class));
-                Animatoo.animateSlideLeft(context);
-            } else if (command.contains("marcha")) {
-                startActivity(new Intent(getActivity(), Marcha.class));
-                Animatoo.animateSlideLeft(context);
-            } else if (command.contains("posição do pedal")) {
-                startActivity(new Intent(getActivity(), PosicaoPedal.class));
-                Animatoo.animateSlideLeft(context);
             }
         } else speak("Não posso responder isso com precisão, tente perguntar de outra maneira.");
+
+        switch (flagRaio) {
+            case 1:
+                if (command.contains("sim")) {
+                    speak("Qual o raio desejado em quilômetro?");
+                    flagRaio = 2;
+                    delay2();
+                    break;
+                } else if (command.contains("não")) {
+                    openNearby();
+                }
+                break;
+            case 2:
+                if (command.contains("1")) {
+                    mRaio = "1000";
+                    speak("Você deseja aplicar filtro?");
+                    flagFiltro = 1;
+                    delay();
+                    break;
+                } else if (command.contains("2")) {
+                    mRaio = "2000";
+                    speak("Você deseja aplicar filtro?");
+                    flagFiltro = 1;
+                    delay();
+                    break;
+                } else if (command.contains("5")) {
+                    mRaio = "5000";
+                    speak("Você deseja aplicar filtro?");
+                    flagFiltro = 1;
+                    delay();
+                    break;
+                } else if (command.contains("10")) {
+                    mRaio = "10000";
+                    speak("Você deseja aplicar filtro?");
+                    flagFiltro = 1;
+                    delay();
+                    break;
+                } else if (command.contains("20")) {
+                    mRaio = "20000";
+                    speak("Você deseja aplicar filtro?");
+                    flagFiltro = 1;
+                    delay();
+                    break;
+                } else if (command.contains("30")) {
+                    mRaio = "30000";
+                    speak("Você deseja aplicar filtro?");
+                    flagFiltro = 1;
+                    delay();
+                    break;
+                } else if (command.contains("40")) {
+                    mRaio = "40000";
+                    speak("Você deseja aplicar filtro?");
+                    flagFiltro = 1;
+                    delay();
+                    break;
+                } else if (command.contains("50")) {
+                    mRaio = "50000";
+                    speak("Você deseja aplicar filtro?");
+                    flagFiltro = 1;
+                    delay();
+                    break;
+                } else {
+                    speak("Entre com o raio disponível na lista de raio.");
+                    flagRaio = 2;
+                    delay3();
+                }
+                break;
+        }
+
+        switch (flagFiltro) {
+            case 1:
+                if (command.contains("sim")) {
+                    speak("Qual o filtro desejado?");
+                    flagFiltro = 2;
+                    delay();
+                    break;
+                } else if (command.contains("não")) {
+                    openNearby();
+                }
+                break;
+            case 2:
+                if (command.contains("ordem alfabética")) {
+                    mFiltro = "Ordem alfabética";
+                    openNearby();
+                    break;
+                } else if (command.contains("distância mais curta")) {
+                    mFiltro = "Distância mais curta";
+                    openNearby();
+                    break;
+                } else if (command.contains("tempo mais curto")) {
+                    mFiltro = "Tempo mais curto";
+                    openNearby();
+                    break;
+                } else if (command.contains("maior avaliação")) {
+                    mFiltro = "Maior avaliação";
+                    openNearby();
+                    break;
+                } else {
+                    speak("Entre com o filtro disponível na lista de filtros.");
+                    flagFiltro = 2;
+                    delay3();
+                }
+                break;
+        }
+    }
+
+    private void openNearby() {
+        speak("Fazendo busca de hotéis na sua região");
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Nearby nearby = new Nearby();
+                Bundle bundle = new Bundle();
+                bundle.putString(Constants.RAIO_ASSISTENTE, mRaio);
+                bundle.putString(Constants.FILTRO_ASSISTENTE, mFiltro);
+                Log.i(TAG, "Raio assistente: " + mRaio);
+                Log.i(TAG, "Filtro assistente: " + mFiltro);
+                nearby.setArguments(bundle);
+                FragmentTransaction fragmentTransaction2 = Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction();
+                fragmentTransaction2.replace(R.id.frame, nearby);
+                fragmentTransaction2.commit();
+            }
+        }, 4000);
+    }
+
+    private void delay() {
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                inicializaSPR();
+            }
+        }, 3000);
+    }
+
+    private void delay2() {
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                inicializaSPR();
+            }
+        }, 4000);
+    }
+
+    private void delay3() {
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                inicializaSPR();
+            }
+        }, 5000);
+    }
+
+    private void inicializaSPR() {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 2);
+        mSR.startListening(intent);
+//        initializeSpeechRecognizer();
     }
 
     private void initializeTextToSpeech() {
