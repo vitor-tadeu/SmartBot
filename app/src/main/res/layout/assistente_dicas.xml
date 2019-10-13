@@ -47,7 +47,7 @@
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="@+id/btnFechar"
         app:layout_constraintTop_toBottomOf="@+id/txt_1"
-        app:layout_constraintVertical_bias="0.05" />
+        app:layout_constraintVertical_bias="0.03" />
 
     <TextView
         android:id="@+id/txt_3"
@@ -90,7 +90,7 @@
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="@+id/btnFechar"
         app:layout_constraintTop_toBottomOf="@+id/txt_4"
-        app:layout_constraintVertical_bias="0.05" />
+        app:layout_constraintVertical_bias="0.03" />
 
     <TextView
         android:id="@+id/txt_7"
@@ -124,21 +124,7 @@
         android:id="@+id/txt_9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Qual a minha velocidade"
-        android:textColor="@android:color/white"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintStart_toStartOf="@+id/btnFechar"
-        app:layout_constraintTop_toBottomOf="@+id/txt_8"
-        app:layout_constraintVertical_bias="0.015" />
-
-    <TextView
-        android:id="@+id/txt_10"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Outros"
+        android:text="Buscas"
         android:textColor="@android:color/white"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -146,14 +132,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="@+id/btnFechar"
-        app:layout_constraintTop_toBottomOf="@+id/txt_9"
-        app:layout_constraintVertical_bias="0.05" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_8"
+        app:layout_constraintVertical_bias="0.03" />
 
     <TextView
-        android:id="@+id/txt_11"
+        android:id="@+id/txt_10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Encontre concessionária próxima da ford"
+        android:text="Hotéis"
         android:textColor="@android:color/white"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -164,10 +150,24 @@
         app:layout_constraintVertical_bias="0.015" />
 
     <TextView
+        android:id="@+id/txt_11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Posto de gasolina"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="@+id/btnFechar"
+        app:layout_constraintTop_toBottomOf="@+id/txt_10"
+        app:layout_constraintVertical_bias="0.015" />
+
+    <TextView
         android:id="@+id/txt_12"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Abrir + o nome do sensor"
+        android:text="Estacionamentos"
         android:textColor="@android:color/white"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -181,7 +181,7 @@
         android:id="@+id/txt_13"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sugestões de locais próximos"
+        android:text="Mecânicas"
         android:textColor="@android:color/white"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -189,6 +189,105 @@
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="@+id/btnFechar"
         app:layout_constraintTop_toBottomOf="@+id/txt_12"
+        app:layout_constraintVertical_bias="0.015" />
+
+    <TextView
+        android:id="@+id/txt_14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hospitais"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintStart_toEndOf="@+id/txt_10"
+        app:layout_constraintTop_toBottomOf="@+id/view3"
+        app:layout_constraintVertical_bias="0.015" />
+
+    <TextView
+        android:id="@+id/txt_15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Restaurantes"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="@+id/txt_14"
+        app:layout_constraintTop_toBottomOf="@+id/txt_14"
+        app:layout_constraintVertical_bias="0.015" />
+
+    <TextView
+        android:id="@+id/txt_16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cafeterias"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="@+id/txt_15"
+        app:layout_constraintTop_toBottomOf="@+id/txt_15"
+        app:layout_constraintVertical_bias="0.015" />
+
+    <TextView
+        android:id="@+id/txt_17"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Aplicar raio e filtros"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="@+id/btnFechar"
+        app:layout_constraintTop_toBottomOf="@+id/txt_13"
+        app:layout_constraintVertical_bias="0.015" />
+
+    <TextView
+        android:id="@+id/txt_18"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Outros"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="@+id/btnFechar"
+        app:layout_constraintTop_toBottomOf="@+id/txt_17"
+        app:layout_constraintVertical_bias="0.03" />
+
+    <TextView
+        android:id="@+id/txt_19"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Encontre concessionária próxima da ford"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="@+id/btnFechar"
+        app:layout_constraintTop_toBottomOf="@+id/view4"
+        app:layout_constraintVertical_bias="0.015" />
+
+    <TextView
+        android:id="@+id/txt_20"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Abrir + o nome do sensor"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="@+id/btnFechar"
+        app:layout_constraintTop_toBottomOf="@+id/txt_19"
         app:layout_constraintVertical_bias="0.015" />
 
     <View
@@ -229,6 +328,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_10"
+        app:layout_constraintTop_toBottomOf="@+id/txt_9"
+        app:layout_constraintVertical_bias="0.015" />
+
+    <View
+        android:id="@+id/view4"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_18"
         app:layout_constraintVertical_bias="0.015" />
 </android.support.constraint.ConstraintLayout>
