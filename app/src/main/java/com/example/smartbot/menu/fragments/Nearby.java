@@ -135,10 +135,6 @@ public class Nearby extends Fragment implements OnItemClickListener, Lugares.Bot
         mPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("Preferences", getActivity().MODE_PRIVATE);
         mEditor = mPreferences.edit();
 
-        mType = "hotel";
-        mName = "hotel";
-        mProgress = "Buscando hotéis...";
-
         firstStart = mPreferences.getBoolean(Constants.APRESENTACAO_2, true);
     }
 
@@ -321,7 +317,7 @@ public class Nearby extends Fragment implements OnItemClickListener, Lugares.Bot
             mEditor.apply();
             apresentacao1();
         } else {
-            tour1();
+            //tour1();
         }
     }
 
@@ -341,9 +337,9 @@ public class Nearby extends Fragment implements OnItemClickListener, Lugares.Bot
     private void responseAPIPlaces() {
         try {
             if (!mCoordenadas.isEmpty()) {
-                loading();
                 setRaio();
-                setNomeAssistente();
+                setPlaces();
+                loading();
                 requestAPIPlaces();
             } else {
                 GPSOnOff();
@@ -450,7 +446,7 @@ public class Nearby extends Fragment implements OnItemClickListener, Lugares.Bot
         }
     }
 
-    private void setNomeAssistente() {
+    private void setPlaces() {
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             mLugar = bundle.getString(Constants.PLACE_ASSISTENTE);
@@ -490,6 +486,7 @@ public class Nearby extends Fragment implements OnItemClickListener, Lugares.Bot
                     mProgress = "Buscando hospitais...";
                     mErro.setText("Nenhum hospital encontrado aberto, tente aumentar o raio.");
                     Objects.requireNonNull(getActivity()).setTitle("Hospitais");
+                    break;
                 case "restaurantes":
                     mType = "restaurant";
                     mName = "restaurant";
@@ -505,6 +502,10 @@ public class Nearby extends Fragment implements OnItemClickListener, Lugares.Bot
                     Objects.requireNonNull(getActivity()).setTitle("Cafeterias");
                     break;
             }
+        } else {
+            mType = "hotel";
+            mName = "hotel";
+            mProgress = "Buscando hotéis...";
         }
     }
 
@@ -588,6 +589,7 @@ public class Nearby extends Fragment implements OnItemClickListener, Lugares.Bot
                     }
                 } else Log.i(TAG, "Resposta sem sucesso places");
                 mProgressDialog.dismiss();
+                checkTour();
             }
 
             @Override

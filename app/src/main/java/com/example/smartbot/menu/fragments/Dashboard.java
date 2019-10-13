@@ -74,7 +74,7 @@ public class Dashboard extends Fragment implements OnItemClickListener {
 
     private TextView mTempo, mNome;
     private FloatingActionButton mMicrofone;
-    private String mCoordenadas, mCombustivel, mTemperatura, mRaio = null, mFiltro = null, mPlace;
+    private String mCoordenadas, mCombustivel, mTemperatura, mRaio = null, mFiltro = null, mLugar;
     private boolean firstStart;
     private View view;
 
@@ -650,19 +650,6 @@ public class Dashboard extends Fragment implements OnItemClickListener {
                     }, 4000);
                 }
             }
-        } else if (command.contains("buscar")) {
-            if (command.contains("hotéis")
-                    || (command.contains("posto de gasolina"))
-                    || (command.contains("estacionamentos"))
-                    || (command.contains("mecânicas"))
-                    || (command.contains("hospitais"))
-                    || (command.contains("restaurantes"))
-                    || (command.contains("cafeterias"))) {
-                mPlace = command.substring(7);
-                speak("Você quer definir um raio?");
-                flagRaio = 1;
-                delay();
-            }
         } else if (command.contains("abrir")) {
             if (command.contains("combustível")) {
                 startActivity(new Intent(getActivity(), Combustivel.class));
@@ -671,76 +658,96 @@ public class Dashboard extends Fragment implements OnItemClickListener {
                 startActivity(new Intent(getActivity(), Temperatura.class));
                 Animatoo.animateSlideLeft(context);
             }
-        } else speak("Não posso responder isso com precisão, tente perguntar de outra maneira.");
+        } else if (command.contains("buscar")) {
+            if (command.contains("hotéis")
+                    || (command.contains("posto de gasolina"))
+                    || (command.contains("estacionamentos"))
+                    || (command.contains("mecânicas"))
+                    || (command.contains("hospitais"))
+                    || (command.contains("restaurantes"))
+                    || (command.contains("cafeterias"))) {
+                mLugar = command.substring(7);
+                speak("Você quer definir um raio?");
+                flagRaio = 1;
+                delay(2000);
+            } else {
+                speak("Não tenho base suficiente para responder, procure por outras coisas.");
+                delay(5500);
+            }
+        } else {
+            speak("Não posso responder isso com precisão, tente perguntar de outra maneira.");
+            mSR.stopListening();
+        }
 
         switch (flagRaio) {
             case 1:
                 if (command.contains("sim")) {
                     speak("Qual o raio desejado em quilômetro?");
                     flagRaio = 2;
-                    delay2();
+                    delay(3500);
                     break;
                 } else if (command.contains("não")) {
                     speak("E algum filtro?");
+                    mRaio = "10000";
                     flagFiltro = 1;
-                    delay();
+                    break;
                 }
                 break;
             case 2:
                 if (command.contains("1")) {
                     mRaio = "1000";
-                    speak("Você deseja aplicar filtro?");
+                    speak("Aplicar filtro também?");
                     flagFiltro = 1;
-                    delay();
+                    delay(2500);
                     break;
                 } else if (command.contains("2")) {
                     mRaio = "2000";
-                    speak("Você deseja aplicar filtro?");
+                    speak("Aplicar filtro também?");
                     flagFiltro = 1;
-                    delay();
+                    delay(2500);
                     break;
                 } else if (command.contains("5")) {
                     mRaio = "5000";
-                    speak("Você deseja aplicar filtro?");
+                    speak("Aplicar filtro também?");
                     flagFiltro = 1;
-                    delay();
+                    delay(2500);
                     break;
                 } else if (command.contains("10")) {
                     mRaio = "10000";
-                    speak("Você deseja aplicar filtro?");
+                    speak("Aplicar filtro também?");
                     flagFiltro = 1;
-                    delay();
+                    delay(2500);
                     break;
                 } else if (command.contains("20")) {
                     mRaio = "20000";
-                    speak("Você deseja aplicar filtro?");
+                    speak("Aplicar filtro também?");
                     flagFiltro = 1;
-                    delay();
+                    delay(2500);
                     break;
                 } else if (command.contains("30")) {
                     mRaio = "30000";
-                    speak("Você deseja aplicar filtro?");
+                    speak("Aplicar filtro também?");
                     flagFiltro = 1;
-                    delay();
+                    delay(2500);
                     break;
                 } else if (command.contains("40")) {
                     mRaio = "40000";
-                    speak("Você deseja aplicar filtro?");
+                    speak("Aplicar filtro também?");
                     flagFiltro = 1;
-                    delay();
+                    delay(2500);
                     break;
                 } else if (command.contains("50")) {
                     mRaio = "50000";
-                    speak("Você deseja aplicar filtro?");
+                    speak("Aplicar filtro também?");
                     flagFiltro = 1;
-                    delay();
+                    delay(2500);
                     break;
                 } else {
                     speak("Entre com o raio disponível na lista de raio.");
                     flagRaio = 2;
-                    delay3();
+                    delay(4500);
+                    break;
                 }
-                break;
         }
 
         switch (flagFiltro) {
@@ -748,12 +755,12 @@ public class Dashboard extends Fragment implements OnItemClickListener {
                 if (command.contains("sim")) {
                     speak("Qual o filtro desejado?");
                     flagFiltro = 2;
-                    delay();
+                    delay(2500);
                     break;
-                } else if (command.contains("agora não")) {
-                    mRaio = "10000";
+                } else if (command.contains("não obrigado")) {
                     mFiltro = "Distância mais curta";
                     openNearby();
+                    break;
                 }
                 break;
             case 2:
@@ -776,62 +783,43 @@ public class Dashboard extends Fragment implements OnItemClickListener {
                 } else {
                     speak("Entre com o filtro disponível na lista de filtros.");
                     flagFiltro = 2;
-                    delay3();
+                    delay(4500);
+                    break;
                 }
-                break;
         }
     }
 
     private void openNearby() {
-        speak("Fazendo busca de " + mPlace + " na sua região");
+        mSR.destroy();
+        speak("Fazendo busca de " + mLugar + " na sua região");
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 Nearby nearby = new Nearby();
                 Bundle bundle = new Bundle();
-                bundle.putString(Constants.PLACE_ASSISTENTE, mPlace);
+                bundle.putString(Constants.PLACE_ASSISTENTE, mLugar);
                 bundle.putString(Constants.RAIO_ASSISTENTE, mRaio);
                 bundle.putString(Constants.FILTRO_ASSISTENTE, mFiltro);
-                Log.i(TAG, "Place assistente: " + mPlace);
-                Log.i(TAG, "Raio assistente: " + mRaio);
-                Log.i(TAG, "Filtro assistente: " + mFiltro);
+                Log.i(TAG, "Lugar: " + mLugar);
+                Log.i(TAG, "Raio: " + mRaio);
+                Log.i(TAG, "Filtro: " + mFiltro);
                 nearby.setArguments(bundle);
                 FragmentTransaction fragmentTransaction2 = Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction();
                 fragmentTransaction2.replace(R.id.frame, nearby);
                 fragmentTransaction2.commit();
             }
-        }, 7000);
-    }
-
-    private void delay() {
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                inicializaSPR();
-            }
-        }, 3000);
-    }
-
-    private void delay2() {
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                inicializaSPR();
-            }
-        }, 4000);
-    }
-
-    private void delay3() {
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                inicializaSPR();
-            }
         }, 5000);
+    }
+
+    private void delay(int delay) {
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                inicializaSPR();
+            }
+        }, delay);
     }
 
     private void inicializaSPR() {
