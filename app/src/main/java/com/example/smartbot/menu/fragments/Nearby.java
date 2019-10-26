@@ -136,6 +136,10 @@ public class Nearby extends Fragment implements OnItemClickListener, Lugares.Bot
         mEditor = mPreferences.edit();
 
         firstStart = mPreferences.getBoolean(Constants.APRESENTACAO_2, true);
+
+        mType = "hotel";
+        mName = "hotel";
+        mProgress = "Buscando hotéis...";
     }
 
     private void GPSOnOff() {
@@ -452,7 +456,7 @@ public class Nearby extends Fragment implements OnItemClickListener, Lugares.Bot
             mLugar = bundle.getString(Constants.PLACE_ASSISTENTE);
             Log.i(TAG, "Lugar assistente: " + mLugar);
             switch (mLugar) {
-                case "hotéis":
+                case "hotel":
                     mType = "hotel";
                     mName = "hotel";
                     mProgress = "Buscando hotéis...";
@@ -466,35 +470,35 @@ public class Nearby extends Fragment implements OnItemClickListener, Lugares.Bot
                     mErro.setText("Nenhum posto encontrado aberto, tente aumentar o raio.");
                     Objects.requireNonNull(getActivity()).setTitle("Postos de Gasolina");
                     break;
-                case "estacionamentos":
+                case "estacionamento":
                     mType = "parking";
                     mName = "parking";
                     mProgress = "Buscando estacionamentos...";
                     mErro.setText("Nenhum estacionamento encontrado aberto, tente aumentar o raio.");
                     Objects.requireNonNull(getActivity()).setTitle("Estacionamentos");
                     break;
-                case "mecânicas":
+                case "mecânica":
                     mType = "car_repair";
                     mName = "car_repair";
                     mProgress = "Buscando mecânicas...";
                     mErro.setText("Nenhuma mecânica encontrada aberta, tente aumentar o raio.");
                     Objects.requireNonNull(getActivity()).setTitle("Mecânicas");
                     break;
-                case "hospitais":
+                case "hospital":
                     mType = "hospital";
                     mName = "hospital";
                     mProgress = "Buscando hospitais...";
                     mErro.setText("Nenhum hospital encontrado aberto, tente aumentar o raio.");
                     Objects.requireNonNull(getActivity()).setTitle("Hospitais");
                     break;
-                case "restaurantes":
+                case "restaurante":
                     mType = "restaurant";
                     mName = "restaurant";
                     mProgress = "Buscando restaurantes...";
                     mErro.setText("Nenhum restaurante encontrado aberto, tente aumentar o raio.");
                     Objects.requireNonNull(getActivity()).setTitle("Restaurantes");
                     break;
-                case "cafeterias":
+                case "cafeteria":
                     mType = "cafe";
                     mName = "cafe";
                     mProgress = "Buscando cafeterias...";
@@ -502,10 +506,6 @@ public class Nearby extends Fragment implements OnItemClickListener, Lugares.Bot
                     Objects.requireNonNull(getActivity()).setTitle("Cafeterias");
                     break;
             }
-        } else {
-            mType = "hotel";
-            mName = "hotel";
-            mProgress = "Buscando hotéis...";
         }
     }
 
@@ -694,7 +694,6 @@ public class Nearby extends Fragment implements OnItemClickListener, Lugares.Bot
     @SuppressLint("SetTextI18n")
     @Override
     public void onOptionClick(int id) {
-        mPlaces.clear();
         if (id == R.id.fab_gas_station) {
             mType = "gas_station";
             mName = "gas_station";
