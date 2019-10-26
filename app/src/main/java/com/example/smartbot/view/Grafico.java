@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.example.smartbot.R;
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.components.Legend;
@@ -19,6 +20,7 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Grafico extends AppCompatActivity {
     private CombinedChart mChart;
@@ -51,9 +53,8 @@ public class Grafico extends AppCompatActivity {
     private void legenda() {
         Legend legend = mChart.getLegend();
         legend.setWordWrapEnabled(true);
-        legend.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
+        legend.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
         legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
-        legend.setOrientation(Legend.LegendOrientation.HORIZONTAL);
         legend.setFormSize(10);
         legend.setTextSize(12);
         legend.setXEntrySpace(10);
@@ -72,7 +73,7 @@ public class Grafico extends AppCompatActivity {
         eixoEsquerdo.setTextColor(Color.BLACK);
 
         XAxis eixoInferior = mChart.getXAxis();
-        eixoInferior.setPosition(XAxis.XAxisPosition.BOTH_SIDED);
+        eixoInferior.setPosition(XAxis.XAxisPosition.BOTTOM);
         eixoInferior.setAxisMinimum(0);
         eixoInferior.setGranularity(1);
         eixoInferior.setAvoidFirstLastClipping(true);
@@ -90,16 +91,16 @@ public class Grafico extends AppCompatActivity {
     }
 
     protected String[] mMonths = new String[]{
-            "", "Anchieta", "Anhanguera", "Bandeirantes", "Castelo Branco", "Tamoios"
+           "", "Combustível", "Velocidade", "Óleo do Motor", "Temperatura"
     };
 
     private void grafico(XAxis eixoInferior) {
         CombinedData data = new CombinedData();
-        data.setData(generateLineData());
+//        data.setData(generateLineData());
         data.setData(generateBarData());
         mChart.setData(data);
-        eixoInferior.setAxisMaximum(data.getXMax() + 0.25f);
-//        mChart.invalidate();
+        eixoInferior.setAxisMaximum(data.getXMax() + 1);
+        mChart.invalidate();
     }
 
     private LineData generateLineData() {
@@ -136,14 +137,14 @@ public class Grafico extends AppCompatActivity {
 
     private BarData generateBarData() {
         ArrayList<BarEntry> entries = new ArrayList<>();
-        entries = getBarEnteries(entries);
+        getBarEnteries(entries);
 
-        BarDataSet set = new BarDataSet(entries, "Vias");
+        BarDataSet set = new BarDataSet(entries, "Sensores");
         set.setColor(Color.rgb(168, 168, 168));
 //        set.setColors(ColorTemplate.COLORFUL_COLORS);
-        set.setValueTextColor(Color.RED);
+        set.setValueTextColor(Color.BLUE);
         set.setValueTextSize(15);
-        set.setAxisDependency(YAxis.AxisDependency.LEFT);
+        set.setAxisDependency(YAxis.AxisDependency.RIGHT);
         float barWidth = 0.45f; // x2 dataset
 
         BarData barData = new BarData(set);
@@ -151,12 +152,18 @@ public class Grafico extends AppCompatActivity {
         return barData;
     }
 
-    private ArrayList<BarEntry> getBarEnteries(ArrayList<BarEntry> entries) {
-        entries.add(new BarEntry(1, 60));
-        entries.add(new BarEntry(2, 70));
-        entries.add(new BarEntry(3, 80));
-        entries.add(new BarEntry(4, 90));
-        entries.add(new BarEntry(5, 100));
-        return entries;
+    private void getBarEnteries(ArrayList<BarEntry> entries) {
+        int min = 20;
+        int max = 100;
+        entries.add(new BarEntry(1, new Random().nextInt(max - min)));
+        entries.add(new BarEntry(2, new Random().nextInt(max - min)));
+        entries.add(new BarEntry(3, new Random().nextInt(max - min)));
+        entries.add(new BarEntry(4, 29));
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Animatoo.animateFade(this);
     }
 }
