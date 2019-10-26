@@ -25,14 +25,16 @@
                 android:id="@+id/address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="DHAKA, BD"
+                android:textColor="#FFFFFF"
+                android:text="SÃO PAULO, SP"
                 android:textSize="24dp" />
 
             <TextView
                 android:id="@+id/updated_at"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="20 April 2012, 20:08 PM"
+                android:textColor="#FFFFFF"
+                android:text="02 Novembro 2019"
                 android:textSize="14dp" />
         </LinearLayout>
 
@@ -48,8 +50,9 @@
                 android:id="@+id/status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="#FFFFFF"
                 android:layout_gravity="center"
-                android:text="Clear Sky"
+                android:text="Céu Limpo"
                 android:textSize="18dp" />
 
             <TextView
@@ -57,6 +60,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:textColor="#FFFFFF"
                 android:fontFamily="sans-serif-thin"
                 android:text="29°C"
                 android:textSize="90dp" />
@@ -70,8 +74,9 @@
                 <TextView
                     android:id="@+id/temp_min"
                     android:layout_width="wrap_content"
+                    android:textColor="#FFFFFF"
                     android:layout_height="wrap_content"
-                    android:text="Min Temp: 05:05 AM" />
+                    android:text="Min Temp: 05:00 AM" />
 
                 <Space
                     android:layout_width="50dp"
@@ -80,8 +85,9 @@
                 <TextView
                     android:id="@+id/temp_max"
                     android:layout_width="wrap_content"
+                    android:textColor="#FFFFFF"
                     android:layout_height="wrap_content"
-                    android:text="Max Temp: 05:05 PM" />
+                    android:text="Max Temp: 12:00 PM" />
             </LinearLayout>
 
         </LinearLayout>
@@ -122,14 +128,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Sunrise"
+                        android:text="Nascer do sol"
                         android:textSize="12dp" />
 
                     <TextView
                         android:id="@+id/sunrise"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="06:40 AM"
+                        android:text="05:35 AM"
                         android:textSize="14dp" />
                 </LinearLayout>
 
@@ -159,14 +165,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Sunset"
+                        android:text="Pôr do sol"
                         android:textSize="12dp" />
 
                     <TextView
                         android:id="@+id/sunset"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="06:40 AM"
+                        android:text="06:11 PM"
                         android:textSize="14dp" />
                 </LinearLayout>
 
@@ -196,14 +202,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Wind"
+                        android:text="Vento"
                         android:textSize="12dp" />
 
                     <TextView
                         android:id="@+id/wind"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="06:40 AM"
+                        android:text="3 km/h"
                         android:textSize="14dp" />
                 </LinearLayout>
             </LinearLayout>
@@ -240,14 +246,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Pressure"
+                        android:text="Pressão"
                         android:textSize="12dp" />
 
                     <TextView
                         android:id="@+id/pressure"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="06:40 AM"
+                        android:text="1017 hPa"
                         android:textSize="14dp" />
                 </LinearLayout>
 
@@ -277,14 +283,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Humidity"
+                        android:text="Umidade"
                         android:textSize="12dp" />
 
                     <TextView
                         android:id="@+id/humidity"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="06:40 AM"
+                        android:text="48%"
                         android:textSize="14dp" />
                 </LinearLayout>
 
@@ -314,14 +320,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Created By"
+                        android:text="Visibilidade"
                         android:textSize="12dp" />
 
                     <TextView
                         android:id="@+id/about"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="AndroDocs"
+                        android:text="9,7 km"
                         android:textSize="14dp" />
                 </LinearLayout>
             </LinearLayout>
