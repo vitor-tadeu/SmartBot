@@ -34,23 +34,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
-import com.example.smartbot.BuildConfig;
 import com.example.smartbot.R;
 import com.example.smartbot.controller.adapter.OnItemClickListener;
 import com.example.smartbot.controller.adapter.SensorViewAdapter;
-import com.example.smartbot.controller.sdl.Config;
-import com.example.smartbot.controller.sdl.SdlReceiver;
-import com.example.smartbot.controller.sdl.SdlService;
-import com.example.smartbot.controller.sdl.TelematicsCollector;
-import com.example.smartbot.controller.sdl.VehicleData;
 import com.example.smartbot.controller.utils.AssistenteDicas;
 import com.example.smartbot.controller.utils.Constants;
 import com.example.smartbot.model.Sensor;
+import com.example.smartbot.view.Grafico;
 import com.example.smartbot.view.sensores.Combustivel;
 import com.example.smartbot.view.sensores.Temperatura;
 import com.github.amlcurran.showcaseview.OnShowcaseEventListener;
@@ -74,7 +70,8 @@ public class Dashboard extends Fragment implements OnItemClickListener {
 
     private TextView mTempo, mNome;
     private FloatingActionButton mMicrofone;
-    private String mCoordenadas, mCombustivel, mTemperatura, mRaio = null, mFiltro = null, mLugar;
+    private ImageButton mGrafico;
+    private String mCoordenadas, mRaio = null, mFiltro = null, mLugar;
     private boolean firstStart;
     private View view;
 
@@ -103,15 +100,13 @@ public class Dashboard extends Fragment implements OnItemClickListener {
         view = inflater.inflate(R.layout.fragment_dashboard, container, false);
         Objects.requireNonNull(getActivity()).setTitle("Monitoramento");
         setHasOptionsMenu(true);
-        SDL();
         init();
         setAdapter();
         getUsuario();
         checkPreferences();
         microfone();
         GPSOnOff();
-        getSensor();
-        SDLOnOff();
+        openGrafico();
         return view;
     }
 
@@ -158,29 +153,6 @@ public class Dashboard extends Fragment implements OnItemClickListener {
         builder.create().show();
     }
 
-    private void SDL() {
-        //If we are connected to a module we want to start our SdlService
-        if (BuildConfig.TRANSPORT.equals("MULTI") || BuildConfig.TRANSPORT.equals("MULTI_HB")) {
-            SdlReceiver.queryForConnectedService(getActivity());
-        } else if (BuildConfig.TRANSPORT.equals("TCP")) {
-            Intent proxyIntent = new Intent(getActivity(), SdlService.class);
-            getActivity().startService(proxyIntent);
-        }
-    }
-
-    private void SDLOnOff() {
-        if (Config.sdlServiceIsActive) {
-            if (Config.isSubscribing) {
-                TelematicsCollector.getInstance().setUnssubscribeVehicleData();
-            } else {
-                TelematicsCollector.getInstance().setSubscribeVehicleData();
-            }
-            Toast.makeText(getActivity(), "Conexão SYNC: Conectado", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(getActivity(), "Conexão SYNC: Desconectado", Toast.LENGTH_SHORT).show();
-        }
-    }
-
     @SuppressLint("CommitPrefEdits")
     private void init() {
         mMicrofone = view.findViewById(R.id.fabMicrofone);
@@ -188,7 +160,7 @@ public class Dashboard extends Fragment implements OnItemClickListener {
         mNome = view.findViewById(R.id.txtNome);
 
         mRecyclerView = view.findViewById(R.id.recyclerViewSensor);
-//        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+//        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         mRecyclerView.setHasFixedSize(true);
 
@@ -537,6 +509,18 @@ public class Dashboard extends Fragment implements OnItemClickListener {
         showcaseView.build();
     }
 
+    private void openGrafico() {
+        mGrafico = view.findViewById(R.id.imgaeGrafico);
+        mGrafico.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context context = getActivity();
+                startActivity(new Intent(getActivity(), Grafico.class));
+                Animatoo.animateFade(Objects.requireNonNull(context));
+            }
+        });
+    }
+
     private void microfone() {
         mMicrofone.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -629,10 +613,10 @@ public class Dashboard extends Fragment implements OnItemClickListener {
                 speak(mTempo.getText().toString() + " " + mNome.getText().toString() + ". Meu nome é Lóri, tudo bem?");
             } else if (command.contains("nível")) {
                 if (command.contains("combustível")) {
-                    speak("O nível do combustível atual é " + mCombustivel.substring(0, 2) + "%");
+                    speak("O nível do combustível atual é 80%");
                 }
             } else if (command.contains("temperatura")) {
-                speak("No momento a temperatura é " + mTemperatura + "º");
+                speak("No momento a temperatura é 29º");
             }
         } else if (command.contains("horas")) {
             String time = DateUtils.formatDateTime(getActivity(), new Date().getTime(), DateUtils.FORMAT_SHOW_TIME);
@@ -659,13 +643,13 @@ public class Dashboard extends Fragment implements OnItemClickListener {
                 Animatoo.animateSlideLeft(context);
             }
         } else if (command.contains("buscar")) {
-            if (command.contains("hotéis")
+            if (command.contains("hotel")
                     || (command.contains("posto de gasolina"))
-                    || (command.contains("estacionamentos"))
-                    || (command.contains("mecânicas"))
-                    || (command.contains("hospitais"))
-                    || (command.contains("restaurantes"))
-                    || (command.contains("cafeterias"))) {
+                    || (command.contains("estacionamento"))
+                    || (command.contains("mecânica"))
+                    || (command.contains("hospital"))
+                    || (command.contains("restaurante"))
+                    || (command.contains("cafeteria"))) {
                 mLugar = command.substring(7);
                 speak("Você quer definir um raio?");
                 flagRaio = 1;
@@ -866,14 +850,8 @@ public class Dashboard extends Fragment implements OnItemClickListener {
                 });
     }
 
-    private void getSensor() {
-        mCombustivel = String.valueOf(((VehicleData.getInstance().getFuelLevel())));
-        mTemperatura = String.valueOf(((VehicleData.getInstance().getExternalTemperature())));
-    }
-
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == Constants.RESULT_SPEECH) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Log.i(TAG, "Permissao aceita");

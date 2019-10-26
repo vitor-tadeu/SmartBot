@@ -90,7 +90,6 @@
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".view.Grafico"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <!-- SDL -->
