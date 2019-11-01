@@ -33,8 +33,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -70,7 +70,7 @@ public class Dashboard extends Fragment implements OnItemClickListener {
 
     private TextView mTempo, mNome;
     private FloatingActionButton mMicrofone;
-    private ImageButton mGrafico;
+    private Button mGrafico;
     private String mCoordenadas, mRaio = null, mFiltro = null, mLugar;
     private boolean firstStart;
     private View view;
