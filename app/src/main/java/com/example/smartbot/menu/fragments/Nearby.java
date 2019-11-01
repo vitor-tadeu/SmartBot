@@ -27,20 +27,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.smartbot.controller.utils.Constants;
 import com.example.smartbot.R;
 import com.example.smartbot.controller.adapter.OnItemClickListener;
 import com.example.smartbot.controller.adapter.PlacesViewAdapter;
+import com.example.smartbot.controller.service.APIClientMySQL;
 import com.example.smartbot.controller.service.APIClientPlaces;
+import com.example.smartbot.controller.service.APIServiceMySQL;
 import com.example.smartbot.controller.service.APIServicePlaces;
-import com.example.smartbot.model.Places;
-import com.example.smartbot.view.Lugares;
+import com.example.smartbot.controller.utils.Constants;
 import com.example.smartbot.model.DistanceMatrixAPI;
+import com.example.smartbot.model.Places;
 import com.example.smartbot.model.PlacesAPI;
+import com.example.smartbot.view.Lugares;
 import com.github.amlcurran.showcaseview.OnShowcaseEventListener;
 import com.github.amlcurran.showcaseview.ShowcaseView;
 import com.github.amlcurran.showcaseview.targets.ViewTarget;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -48,6 +51,8 @@ import java.util.Objects;
 
 import io.nlopez.smartlocation.OnLocationUpdatedListener;
 import io.nlopez.smartlocation.SmartLocation;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -58,7 +63,7 @@ import static java.lang.Integer.valueOf;
 public class Nearby extends Fragment implements OnItemClickListener, Lugares.BottomSheetListener {
     private static final String TAG = "Nearby";
 
-    public String mCoordenadas, mRaio, mLugar, mFiltro, mType, mName, mProgress;
+    public String mCoordenadas, mRaio, mLugar, mFiltro, mType, mName, mProgress, mStatus;
     private FloatingActionButton mFAB;
     private TextView mErro;
     private boolean firstStart;
@@ -72,6 +77,8 @@ public class Nearby extends Fragment implements OnItemClickListener, Lugares.Bot
     private List<com.example.smartbot.model.Places> mPlaces;
     private List<PlacesAPI.Response> mPlacesResponses;
     private PlacesViewAdapter mAdapterPlaces;
+
+    private APIServiceMySQL mServiceMySQL;
 
     private SharedPreferences mPreferences;
     private SharedPreferences.Editor mEditor;
@@ -109,6 +116,12 @@ public class Nearby extends Fragment implements OnItemClickListener, Lugares.Bot
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        requestAPIMySQL();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
         if (itemId == R.id.menu_raio) {
@@ -131,6 +144,7 @@ public class Nearby extends Fragment implements OnItemClickListener, Lugares.Bot
 
         mPlaces = new ArrayList<>();
         mServicePlaces = APIClientPlaces.getClient().create(APIServicePlaces.class);
+        mServiceMySQL = APIClientMySQL.getClient().create(APIServiceMySQL.class);
 
         mPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences("Preferences", getActivity().MODE_PRIVATE);
         mEditor = mPreferences.edit();
@@ -658,6 +672,49 @@ public class Nearby extends Fragment implements OnItemClickListener, Lugares.Bot
             @Override
             public void onFailure(@NonNull Call<DistanceMatrixAPI> call, @NonNull Throwable t) {
                 Log.i(TAG, t.getMessage());
+            }
+        });
+    }
+
+    public void requestAPIMySQL() {
+        Log.i(TAG, "1: ");
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder()
+                .url("http://smartbotfiap-com.umbler.net/usuario")
+                .build();
+
+        client.newCall(request).enqueue(new okhttp3.Callback() {
+            @Override
+            public void onResponse(okhttp3.Call call, okhttp3.Response response) throws IOException {
+                Log.i(TAG, "2: ");
+                if (response.isSuccessful()) {
+//                    JSONObject jsonResponseFormat = null;
+//                    try {
+//                        jsonResponseFormat = new JSONObject(String.valueOf(response));
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//                    try {
+//                        mStatus = jsonResponseFormat.getString("nome");
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//                    Log.i(TAG, "status:" + mStatus);
+//
+//                    mErro.setText("teste");
+//                    Log.i(TAG, "Id: ");
+                    Log.i(TAG, "response" + response.body());
+                } else {
+                    Log.i(TAG, "ERROR");
+                }
+            }
+
+            @Override
+            public void onFailure(okhttp3.Call call, IOException e) {
+                e.printStackTrace();
+                Log.i(TAG, "erro: " + e);
+
             }
         });
     }

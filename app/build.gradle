@@ -79,4 +79,5 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.0.1'
     //Guia interação
     implementation 'com.github.amlcurran.showcaseview:library:5.4.3'
+    implementation project(path: ':mysql-connector')
 }
