@@ -7,10 +7,10 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:usesCleartextTraffic="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
         <!-- Splash Screen -->
         <activity
@@ -59,36 +59,11 @@
             android:theme="@style/AppTheme.NoActionBarSensor"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name=".view.sensores.Velocidade"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBarSensor"
-            android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity
-            android:name=".view.sensores.RPM"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBarSensor"
-            android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity
-            android:name=".view.sensores.Marcha"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBarSensor"
-            android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity
-            android:name=".view.sensores.PosicaoPedal"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBarSensor"
-            android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity
-            android:name=".view.sensores.OleoMotor"
+            android:name=".view.sensores.Cloud"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBarSensor"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <!-- OUTROS -->
-        <activity
-            android:name=".controller.bluetooth.Bluetooth"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".view.Grafico"
             android:theme="@style/AppTheme.NoActionBar"

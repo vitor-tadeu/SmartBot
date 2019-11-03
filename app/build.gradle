@@ -80,4 +80,6 @@ dependencies {
     //Guia interação
     implementation 'com.github.amlcurran.showcaseview:library:5.4.3'
     implementation project(path: ':mysql-connector')
+    //Voley
+    implementation 'com.android.volley:volley:1.1.1'
 }
