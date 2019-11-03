@@ -29,6 +29,9 @@ import android.text.format.DateUtils;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,6 +50,7 @@ import com.example.smartbot.controller.utils.AssistenteDicas;
 import com.example.smartbot.controller.utils.Constants;
 import com.example.smartbot.model.Sensor;
 import com.example.smartbot.view.Grafico;
+import com.example.smartbot.view.sensores.Cloud;
 import com.example.smartbot.view.sensores.Combustivel;
 import com.example.smartbot.view.sensores.Temperatura;
 import com.github.amlcurran.showcaseview.OnShowcaseEventListener;
@@ -122,6 +126,23 @@ public class Dashboard extends Fragment implements OnItemClickListener {
     public void onPause() {
         super.onPause();
         mTTS.shutdown();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.dashboard, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int itemId = item.getItemId();
+        if (itemId == R.id.menu_cloud) {
+            startActivity(new Intent(getActivity(), Cloud.class));
+            Animatoo.animateSlideLeft(Objects.requireNonNull(getActivity()));
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void GPSOnOff() {
@@ -493,9 +514,9 @@ public class Dashboard extends Fragment implements OnItemClickListener {
                         Bundle bundle = new Bundle();
                         bundle.putString(Constants.TOUR, "");
                         nearby.setArguments(bundle);
-                        FragmentTransaction fragmentTransaction2 = Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction();
-                        fragmentTransaction2.replace(R.id.frame, nearby);
-                        fragmentTransaction2.commit();
+                        FragmentTransaction fragmentTransaction1 = Objects.requireNonNull(getActivity()).getSupportFragmentManager().beginTransaction();
+                        fragmentTransaction1.replace(R.id.frame, nearby);
+                        fragmentTransaction1.commit();
                     }
 
                     @Override
