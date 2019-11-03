@@ -18,10 +18,6 @@ public class Constants {
     public static final String POSITION_FILTRO = "POSITION_FILTRO";
     //APIClientPlaces
     public static final String API_BASE_URL = "https://maps.googleapis.com/maps/api/";
-    public static final String API_BASE_URL_MYSQL = "http://smartbotfiap-com.umbler.net/";
-    public static final String API_BASE_URL_WEATHER = "http://apiadvisor.climatempo.com.br/";
-    //API OpenWeather
-    public static final String API_KEY_WEATHER = "0283661234635c0bffe28f881395744e";
     //Passagem de parametro
     public static final String APRESENTACAO_1 = "APRESENTACAO_1";
     public static final String APRESENTACAO_2 = "APRESENTACAO_2";
