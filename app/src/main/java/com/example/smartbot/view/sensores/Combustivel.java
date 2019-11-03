@@ -1,6 +1,5 @@
 package com.example.smartbot.view.sensores;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -10,7 +9,6 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -18,22 +16,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
-import com.example.smartbot.BuildConfig;
 import com.example.smartbot.R;
 import com.example.smartbot.controller.adapter.OnItemClickListener;
 import com.example.smartbot.controller.adapter.PlacesViewAdapter;
-import com.example.smartbot.controller.sdl.Config;
-import com.example.smartbot.controller.sdl.SdlReceiver;
-import com.example.smartbot.controller.sdl.SdlService;
-import com.example.smartbot.controller.sdl.TelematicsCollector;
-import com.example.smartbot.controller.sdl.VehicleData;
 import com.example.smartbot.controller.service.APIClientPlaces;
 import com.example.smartbot.controller.service.APIServicePlaces;
 import com.example.smartbot.controller.utils.Constants;
@@ -44,6 +34,7 @@ import com.example.smartbot.model.PlacesAPI;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import io.nlopez.smartlocation.OnLocationUpdatedListener;
 import io.nlopez.smartlocation.SmartLocation;
@@ -55,9 +46,7 @@ public class Combustivel extends AppCompatActivity implements OnItemClickListene
     private static final String TAG = "Combustivel";
     private TextView mCombustivel, mMensagem;
     private FloatingActionButton mFAB;
-    private String result, nivel, mCoordenadas;
-    private Handler handler;
-    private Menu menu;
+    private String nivel, mCoordenadas;
 
     private RecyclerView mRecyclerView;
     private ProgressDialog mProgressDialog;
@@ -72,37 +61,13 @@ public class Combustivel extends AppCompatActivity implements OnItemClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sensor_combustivel);
         toolbar();
-        SDL();
         init();
         fab();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        this.menu = menu;
-        getMenuInflater().inflate(R.menu.dashboard, menu);
-        return true;
+        setMensagem();
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.menu_off) {
-            if (Config.sdlServiceIsActive) {
-                Toast.makeText(this, "Conexão SYNC: Conectado", Toast.LENGTH_SHORT).show();
-                menu.getItem(0).setTitle("ON");
-                if (Config.isSubscribing) {
-                    TelematicsCollector.getInstance().setUnssubscribeVehicleData();
-                    initThreadVerificaLeitura();
-                } else {
-                    TelematicsCollector.getInstance().setSubscribeVehicleData();
-                }
-            } else {
-                Toast.makeText(this, "Conexão SYNC: Desconectado", Toast.LENGTH_SHORT).show();
-                menu.getItem(0).setTitle("OFF");
-            }
-            return true;
-        }
         finish();
         Animatoo.animateSlideRight(this);
         return super.onOptionsItemSelected(item);
@@ -115,16 +80,6 @@ public class Combustivel extends AppCompatActivity implements OnItemClickListene
         setSupportActionBar(toolbar);
     }
 
-    private void SDL() {
-        //If we are connected to a module we want to start our SdlService
-        if (BuildConfig.TRANSPORT.equals("MULTI") || BuildConfig.TRANSPORT.equals("MULTI_HB")) {
-            SdlReceiver.queryForConnectedService(this);
-        } else if (BuildConfig.TRANSPORT.equals("TCP")) {
-            Intent proxyIntent = new Intent(this, SdlService.class);
-            startService(proxyIntent);
-        }
-    }
-
     private void init() {
         mCombustivel = findViewById(R.id.txtSensorCombustivel);
         mMensagem = findViewById(R.id.txtNivelMsg);
@@ -135,6 +90,9 @@ public class Combustivel extends AppCompatActivity implements OnItemClickListene
 
         mPlaces = new ArrayList<>();
         mServicePlaces = APIClientPlaces.getClient().create(APIServicePlaces.class);
+
+        nivel = String.valueOf(new Random().nextInt(100));
+        mCombustivel.setText(nivel + "%");
     }
 
     private void GPSOnOff() {
@@ -300,33 +258,6 @@ public class Combustivel extends AppCompatActivity implements OnItemClickListene
         } catch (NullPointerException e) {
             Log.i(TAG, "Não foi possivel abrir o mapa" + e.getMessage());
         }
-    }
-
-    @SuppressLint("SetTextI18n")
-    private void initThreadVerificaLeitura() {
-        handler = new Handler();
-        Runnable runnable = new Runnable() {
-            public void run() {
-                while (true) {
-                    handler.post(new Runnable() {
-                        @SuppressLint("SetTextI18n")
-                        public void run() {
-                            result = String.valueOf((VehicleData.getInstance().getFuelLevel()));
-                            nivel = result.substring(0, 2);
-                            mCombustivel.setText(nivel + "%");
-                            setMensagem();
-                        }
-                    });
-                    try {
-                        Thread.sleep(2000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        };
-        Thread thread = new Thread(runnable);
-        thread.start();
     }
 
     private void setMensagem() {
